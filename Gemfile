@@ -8,14 +8,16 @@ gemspec
 # Specify the same dependency sources as the application Gemfile
 
 gem("spring")
-gem("rails", github: "rails/rails", branch: "main")
-gem("constant_resolver", require: false)
-gem("sorbet-runtime", require: false)
-gem("rubocop-performance", require: false)
-gem("rubocop-sorbet", require: false)
+gem("ruby-next-core")
+gem("rails", "~> 3.2.1")
+# gem("constant_resolver", require: false)
+# # gem("sorbet-runtime", require: false)
+# gem("rubocop-performance", require: false)
+# gem("rubocop-sorbet", require: false)
 gem("mocha", require: false)
-gem("rubocop-shopify", require: false)
-gem("tapioca", require: false)
+gem 'test-unit', '~> 3.0'
+# gem("rubocop-shopify", require: false)
+# gem("tapioca", require: false)
 
 group :development do
   gem("byebug", require: false)
