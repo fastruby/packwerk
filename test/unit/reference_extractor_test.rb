@@ -13,9 +13,13 @@ module Packwerk
       setup_application_fixture
       use_template(:skeleton)
 
+      # load_paths =
+      #   Dir.glob(to_app_path("components/*/{app,test}/*{/concerns,}"))
+      #     .map { |p| Pathname.new(p).relative_path_from(app_dir).to_s }
+      app_dir_pathname = Pathname.new(app_dir)
       load_paths =
         Dir.glob(to_app_path("components/*/{app,test}/*{/concerns,}"))
-          .map { |p| Pathname.new(p).relative_path_from(app_dir).to_s }
+          .map { |p| Pathname.new(p).relative_path_from(app_dir_pathname).to_s }
 
       resolver = ConstantResolver.new(root_path: app_dir, load_paths: load_paths)
       packages = ::Packwerk::PackageSet.load_all_from(app_dir)

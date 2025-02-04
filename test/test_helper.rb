@@ -7,12 +7,14 @@ $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 ROOT = Pathname.new(__dir__).join("..").expand_path
 
 require "backports/2.3"
+require "backports/2.5"
 require "ruby-next"
 require "packwerk"
 
 require "minitest/autorun"
 require "minitest/focus"
 require "mocha/minitest"
+require "mocha/mockery"
 require "support/application_fixture_helper"
 require "support/factory_helper"
 require "support/rails_application_fixture_helper"
