@@ -5,7 +5,7 @@ module Packwerk
   class Result # < T::Struct
     attr_reader :status, :message
 
-    def initialize(status, message)
+    def initialize(status, message = "")
       @status = status
       @message = message
     end
