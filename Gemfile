@@ -7,20 +7,21 @@ gemspec
 
 # Specify the same dependency sources as the application Gemfile
 
-gem("spring")
+# gem("spring")
 gem("backports")
 gem("ruby-next-core")
-gem("rails", "~> 5.0.2")
+gem("rails", "~> 3.2.0")
 gem("constant_resolver", require: false)
 # gem("sorbet-runtime", require: false)
 # gem("rubocop-performance", require: false)
 # gem("rubocop-sorbet", require: false)
+gem("m", "1.6.1")
 gem("mocha", "~> 1.12.0", require: false)
 gem 'test-unit', '~> 3.0'
 # gem("rubocop-shopify", require: false)
 # gem("tapioca", require: false)
 
 group :development do
-  gem("byebug", require: false)
+  # gem("byebug", require: false)
   gem("minitest-focus", require: false)
 end
