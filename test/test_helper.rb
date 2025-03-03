@@ -1,6 +1,9 @@
 # typed: false
 # frozen_string_literal: true
 
+require "backports/3.3.0"
+require "pathname"
+
 ENV["RAILS_ENV"] = "test"
 
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
