@@ -21,6 +21,7 @@ gem 'test-unit', '~> 3.0'
 # gem("tapioca", require: false)
 
 group :development do
+  gem("m", "1.6.1", require: false)
   gem("byebug", require: false)
   gem("minitest-focus", require: false)
 end
