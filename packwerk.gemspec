@@ -38,12 +38,12 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = %w(lib)
 
-  spec.required_ruby_version = ">= 2.6"
+  spec.required_ruby_version = ">= 2.3.8"
 
-  spec.add_dependency("activesupport", ">= 5.2")
+  spec.add_dependency("activesupport", ">= 3.2")
   spec.add_dependency("constant_resolver")
   spec.add_dependency("parallel")
-  spec.add_dependency("sorbet-runtime")
+  spec.add_dependency("sorbet-runtime", "0.5.10461")
   spec.add_dependency("bundler")
   spec.add_dependency("digest")
 
@@ -51,7 +51,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency("sorbet")
   spec.add_development_dependency("m")
   # https://github.com/ruby/psych/pull/487
-  spec.add_development_dependency("psych", "~> 3")
+  spec.add_development_dependency("psych")
 
   # For Ruby parsing
   spec.add_dependency("ast")
