@@ -8,15 +8,21 @@ module Packwerk
     end
 
     class Privacy
-      def serialize
-        "Privacy"
+      class << self
+        def serialize
+          "privacy"
+        end
       end
+
     end
 
     class Dependency
-      def serialize
-        "Dependency"
+      class << self
+        def serialize
+          "dependency"
+        end
       end
+
     end
     # enums do
     #   Privacy = new

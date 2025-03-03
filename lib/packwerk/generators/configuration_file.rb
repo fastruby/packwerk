@@ -1,6 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
+require "backports/3.3.0"
 require "erb"
 
 module Packwerk
