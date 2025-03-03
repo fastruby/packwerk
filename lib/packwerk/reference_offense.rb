@@ -4,19 +4,19 @@
 module Packwerk
   # An offense related to a {Packwerk::Reference}.
   class ReferenceOffense < Offense
-    extend T::Sig
-    extend T::Helpers
+    # extend T::Sig
+    # extend T::Helpers
 
     attr_reader :reference, :violation_type
 
-    sig do
-      params(
-        reference: Packwerk::Reference,
-        violation_type: Packwerk::ViolationType,
-        location: T.nilable(Node::Location)
-      )
-        .void
-    end
+    # sig do
+    #   params(
+    #     reference: Packwerk::Reference,
+    #     violation_type: Packwerk::ViolationType,
+    #     location: T.nilable(Node::Location)
+    #   )
+    #     .void
+    # end
     def initialize(reference:, violation_type:, location: nil)
       super(file: reference.relative_path, message: build_message(reference, violation_type), location: location)
       @reference = reference

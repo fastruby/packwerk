@@ -4,7 +4,7 @@
 module Packwerk
   module Generators
     class InflectionsFile
-      extend T::Sig
+      # extend T::Sig
 
       class << self
         def generate(root:, out:)
@@ -17,7 +17,7 @@ module Packwerk
         @out = out
       end
 
-      sig { returns(T::Boolean) }
+      # sig { returns(T::Boolean) }
       def generate
         ruby_inflection_file_exist = Dir.glob("#{@root}/**/inflections.rb").any?
         yaml_inflection_file_exist = Dir.glob("#{@root}/**/inflections.yml").any?

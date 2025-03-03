@@ -5,7 +5,7 @@ require "ast/node"
 
 module Packwerk
   class FileProcessor
-    extend T::Sig
+    # extend T::Sig
 
     class UnknownFileTypeResult < Offense
       def initialize(file:)
@@ -18,16 +18,16 @@ module Packwerk
       @parser_factory = parser_factory || Packwerk::Parsers::Factory.instance
     end
 
-    sig do
-      params(file_path: String).returns(
-        T::Array[
-          T.any(
-            Packwerk::Reference,
-            Packwerk::Offense,
-          )
-        ]
-      )
-    end
+    # sig do
+    #   params(file_path: String).returns(
+    #     T::Array[
+    #       T.any(
+    #         Packwerk::Reference,
+    #         Packwerk::Offense,
+    #       )
+    #     ]
+    #   )
+    # end
     def call(file_path)
       return [UnknownFileTypeResult.new(file: file_path)] if parser_for(file_path).nil?
 

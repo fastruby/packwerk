@@ -4,16 +4,16 @@
 module Packwerk
   # Extracts a possible constant reference from a given AST node.
   class ReferenceExtractor
-    extend T::Sig
+    # extend T::Sig
 
-    sig do
-      params(
-        context_provider: Packwerk::ConstantDiscovery,
-        constant_name_inspectors: T::Array[Packwerk::ConstantNameInspector],
-        root_node: ::AST::Node,
-        root_path: String,
-      ).void
-    end
+    # sig do
+    #   params(
+    #     context_provider: Packwerk::ConstantDiscovery,
+    #     constant_name_inspectors: T::Array[Packwerk::ConstantNameInspector],
+    #     root_node: ::AST::Node,
+    #     root_path: String,
+    #   ).void
+    # end
     def initialize(
       context_provider:,
       constant_name_inspectors:,

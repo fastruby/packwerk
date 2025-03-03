@@ -4,25 +4,25 @@
 module Packwerk
   # Processes a single node in an abstract syntax tree (AST) using the provided checkers.
   class NodeProcessor
-    extend T::Sig
+    # extend T::Sig
 
-    sig do
-      params(
-        reference_extractor: ReferenceExtractor,
-        filename: String,
-      ).void
-    end
+    # sig do
+    #   params(
+    #     reference_extractor: ReferenceExtractor,
+    #     filename: String,
+    #   ).void
+    # end
     def initialize(reference_extractor:, filename:)
       @reference_extractor = reference_extractor
       @filename = filename
     end
 
-    sig do
-      params(
-        node: Parser::AST::Node,
-        ancestors: T::Array[Parser::AST::Node]
-      ).returns(T.nilable(Packwerk::Reference))
-    end
+    # sig do
+    #   params(
+    #     node: Parser::AST::Node,
+    #     ancestors: T::Array[Parser::AST::Node]
+    #   ).returns(T.nilable(Packwerk::Reference))
+    # end
     def call(node, ancestors)
       return unless Node.method_call?(node) || Node.constant?(node)
       @reference_extractor.reference_from_node(node, ancestors: ancestors, file_path: @filename)

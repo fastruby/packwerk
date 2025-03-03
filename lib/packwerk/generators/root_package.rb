@@ -4,7 +4,7 @@
 module Packwerk
   module Generators
     class RootPackage
-      extend T::Sig
+      # extend T::Sig
 
       class << self
         def generate(root:, out:)
@@ -17,7 +17,7 @@ module Packwerk
         @out = out
       end
 
-      sig { returns(T::Boolean) }
+      # sig { returns(T::Boolean) }
       def generate
         if Dir.glob("#{@root}/package.yml").any?
           @out.puts("⚠️  Root package already exists.")

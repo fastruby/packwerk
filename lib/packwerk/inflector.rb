@@ -7,26 +7,26 @@ module Packwerk
   # A custom inflector used, among other things, to map between constant names and file names.
   class Inflector
     class << self
-      extend T::Sig
+      # extend T::Sig
 
       def default
         @default ||= new(custom_inflector: Inflections::Custom.new)
       end
 
-      sig { params(inflections_file: String).returns(::Packwerk::Inflector) }
+      # sig { params(inflections_file: String).returns(::Packwerk::Inflector) }
       def from_file(inflections_file)
         new(custom_inflector: Inflections::Custom.new(inflections_file))
       end
     end
 
-    extend T::Sig
+    # extend T::Sig
     include ::ActiveSupport::Inflector # For #camelize, #classify, #pluralize, #singularize
 
-    sig do
-      params(
-        custom_inflector: Inflections::Custom
-      ).void
-    end
+    # sig do
+    #   params(
+    #     custom_inflector: Inflections::Custom
+    #   ).void
+    # end
     def initialize(custom_inflector:)
       @inflections = ::ActiveSupport::Inflector::Inflections.new
 

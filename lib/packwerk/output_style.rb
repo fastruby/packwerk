@@ -3,18 +3,18 @@
 
 module Packwerk
   module OutputStyle
-    extend T::Sig
-    extend T::Helpers
+    # extend T::Sig
+    # extend T::Helpers
 
-    interface!
+    # interface!
 
-    sig { abstract.returns(String) }
+    # sig { abstract.returns(String) }
     def reset; end
 
-    sig { abstract.returns(String) }
+    # sig { abstract.returns(String) }
     def filename; end
 
-    sig { abstract.returns(String) }
+    # sig { abstract.returns(String) }
     def error; end
   end
 end

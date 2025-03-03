@@ -6,7 +6,7 @@ require "erb"
 module Packwerk
   module Generators
     class ConfigurationFile
-      extend T::Sig
+      # extend T::Sig
 
       CONFIGURATION_TEMPLATE_FILE_PATH = "templates/packwerk.yml.erb"
 
@@ -16,7 +16,7 @@ module Packwerk
         end
       end
 
-      sig { params(load_paths: T::Array[String], root: String, out: T.any(StringIO, IO)).void }
+      # sig { params(load_paths: T::Array[String], root: String, out: T.any(StringIO, IO)).void }
       def initialize(load_paths:, root:, out: $stdout)
         @load_paths = load_paths
         @root = root
@@ -25,7 +25,7 @@ module Packwerk
         set_template_variables
       end
 
-      sig { returns(T::Boolean) }
+      # sig { returns(T::Boolean) }
       def generate
         @out.puts("📦 Generating Packwerk configuration file...")
         default_config_path = File.join(@root, ::Packwerk::Configuration::DEFAULT_CONFIG_PATH)

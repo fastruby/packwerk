@@ -6,14 +6,14 @@ module Packwerk
     class OffensesFormatter
       include Packwerk::OffensesFormatter
 
-      extend T::Sig
+      # extend T::Sig
 
-      sig { params(style: OutputStyle).void }
+      # sig { params(style: OutputStyle).void }
       def initialize(style: OutputStyles::Plain.new)
         @style = style
       end
 
-      sig { override.params(offenses: T::Array[T.nilable(Offense)]).returns(String) }
+      # sig { override.params(offenses: T::Array[T.nilable(Offense)]).returns(String) }
       def show_offenses(offenses)
         return "No offenses detected" if offenses.empty?
 
@@ -23,7 +23,7 @@ module Packwerk
         EOS
       end
 
-      sig { override.params(offense_collection: Packwerk::OffenseCollection).returns(String) }
+      # sig { override.params(offense_collection: Packwerk::OffenseCollection).returns(String) }
       def show_stale_violations(offense_collection)
         if offense_collection.stale_violations?
           "There were stale violations found, please run `packwerk update-deprecations`"
@@ -34,7 +34,7 @@ module Packwerk
 
       private
 
-      sig { params(offenses: T::Array[T.nilable(Offense)]).returns(String) }
+      # sig { params(offenses: T::Array[T.nilable(Offense)]).returns(String) }
       def offenses_list(offenses)
         offenses
           .compact
@@ -42,7 +42,7 @@ module Packwerk
           .join("\n")
       end
 
-      sig { params(offenses: T::Array[T.nilable(Offense)]).returns(String) }
+      # sig { params(offenses: T::Array[T.nilable(Offense)]).returns(String) }
       def offenses_summary(offenses)
         offenses_string = Inflector.default.pluralize("offense", offenses.length)
         "#{offenses.length} #{offenses_string} detected"

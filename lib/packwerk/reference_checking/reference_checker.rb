@@ -4,17 +4,17 @@
 module Packwerk
   module ReferenceChecking
     class ReferenceChecker
-      extend T::Sig
+      # extend T::Sig
 
       def initialize(checkers)
         @checkers = checkers
       end
 
-      sig do
-        params(
-          reference: T.any(Packwerk::Reference, Packwerk::Offense)
-        ).returns(T::Array[Packwerk::Offense])
-      end
+      # sig do
+      #   params(
+      #     reference: T.any(Packwerk::Reference, Packwerk::Offense)
+      #   ).returns(T::Array[Packwerk::Offense])
+      # end
       def call(reference)
         return [reference] if reference.is_a?(Packwerk::Offense)
 

@@ -6,18 +6,18 @@ require "optparse"
 module Packwerk
   # A command-line interface to Packwerk.
   class Cli
-    extend T::Sig
+    # extend T::Sig
 
-    sig do
-      params(
-        configuration: T.nilable(Configuration),
-        out: T.any(StringIO, IO),
-        err_out: T.any(StringIO, IO),
-        environment: String,
-        style: Packwerk::OutputStyle,
-        offenses_formatter: T.nilable(Packwerk::OffensesFormatter)
-      ).void
-    end
+    # sig do
+    #   params(
+    #     configuration: T.nilable(Configuration),
+    #     out: T.any(StringIO, IO),
+    #     err_out: T.any(StringIO, IO),
+    #     environment: String,
+    #     style: Packwerk::OutputStyle,
+    #     offenses_formatter: T.nilable(Packwerk::OffensesFormatter)
+    #   ).void
+    # end
     def initialize(
       configuration: nil,
       out: $stdout,
@@ -35,13 +35,13 @@ module Packwerk
       @offenses_formatter = offenses_formatter || Formatters::OffensesFormatter.new(style: @style)
     end
 
-    sig { params(args: T::Array[String]).returns(T.noreturn) }
+    # sig { params(args: T::Array[String]).returns(T.noreturn) }
     def run(args)
       success = execute_command(args)
       exit(success)
     end
 
-    sig { params(args: T::Array[String]).returns(T::Boolean) }
+    # sig { params(args: T::Array[String]).returns(T::Boolean) }
     def execute_command(args)
       subcommand = args.shift
       case subcommand

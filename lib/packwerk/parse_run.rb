@@ -6,7 +6,7 @@ require "parallel"
 
 module Packwerk
   class ParseRun
-    extend T::Sig
+    # extend T::Sig
 
     def initialize(
       files:,
