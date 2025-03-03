@@ -1,14 +1,15 @@
 # typed: false
 # frozen_string_literal: true
 
+require "backports/2.6"
+require "ruby-next"
+require "pathname"
+
 ENV["RAILS_ENV"] = "test"
 
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 ROOT = Pathname.new(__dir__).join("..").expand_path
 
-require "backports/2.3"
-require "backports/2.5"
-require "ruby-next"
 require "packwerk"
 
 require "minitest/autorun"
