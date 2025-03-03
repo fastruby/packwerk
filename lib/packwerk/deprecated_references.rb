@@ -7,9 +7,10 @@ module Packwerk
   class DeprecatedReferences
     # extend T::Sig
 
-    ENTRIES_TYPE = T.type_alias do
-      T::Hash[String, T.untyped]
-    end
+    ENTRIES_TYPE = nil
+    # ENTRIES_TYPE = T.type_alias do
+    #   T::Hash[String, T.untyped]
+    # end
 
     # sig { params(package: Packwerk::Package, filepath: String).void }
     def initialize(package, filepath)

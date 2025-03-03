@@ -7,7 +7,7 @@ module Packwerk
     # extend T::Sig
     include ConstantNameInspector
 
-    CustomAssociations = T.type_alias { T.any(T::Array[Symbol], T::Set[Symbol]) }
+    CustomAssociations = nil # T.type_alias { T.any(T::Array[Symbol], T::Set[Symbol]) }
 
     RAILS_ASSOCIATIONS = T.let(
       %i(

@@ -4,7 +4,7 @@
 require "pathname"
 
 module Packwerk
-  PathSpec = T.type_alias { T.any(String, T::Array[String]) }
+  # PathSpec = T.type_alias { T.any(String, T::Array[String]) }
 
   # A set of {Packwerk::Package}s as well as methods to parse packages from the filesystem.
   class PackageSet
@@ -12,7 +12,7 @@ module Packwerk
     # extend T::Generic
     include Enumerable
 
-    Elem = type_member(fixed: Package)
+    # Elem = type_member(fixed: Package)
 
     PACKAGE_CONFIG_FILENAME = "package.yml"
 

@@ -5,6 +5,22 @@
 require "active_support"
 require "fileutils"
 
+class T
+  class << self
+    def let(value, _)
+      value
+    end
+
+    def nilable(value)
+      value
+    end
+
+    def untyped
+      nil
+    end
+  end
+end
+
 module Packwerk
   extend ActiveSupport::Autoload
 

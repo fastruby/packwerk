@@ -19,8 +19,8 @@ module Packwerk
     # sig { params(name: String, config: T.nilable(T.any(T::Hash[T.untyped, T.untyped], FalseClass))).void }
     def initialize(name:, config:)
       @name = name
-      @config = T.let(config || {}, T::Hash[T.untyped, T.untyped])
-      @dependencies = T.let(Array(@config["dependencies"]).freeze, T::Array[String])
+      @config = config || {}
+      @dependencies = Array(@config["dependencies"]).freeze
     end
 
     # sig { returns(T.nilable(T.any(T::Boolean, T::Array[String]))) }
