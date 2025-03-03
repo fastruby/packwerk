@@ -5,9 +5,16 @@ module Packwerk
   class NodeProcessorFactory < T::Struct
     extend T::Sig
 
-    const :root_path, String
-    const :context_provider, Packwerk::ConstantDiscovery
-    const :constant_name_inspectors, T::Array[ConstantNameInspector]
+    def initialize(root_path:, context_provider:, constant_name_inspectors:)
+      @root_path = root_path
+      @context_provider = context_provider
+      @constant_name_inspectors = constant_name_inspectors
+    end
+
+    attr_accessor :root_path, :context_provider, :constant_name_inspectors
+    # const :root_path, String
+    # const :context_provider, Packwerk::ConstantDiscovery
+    # const :constant_name_inspectors, T::Array[ConstantNameInspector]
 
     sig { params(filename: String, node: AST::Node).returns(NodeProcessor) }
     def for(filename:, node:)

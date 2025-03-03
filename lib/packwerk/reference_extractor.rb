@@ -1,5 +1,7 @@
 # typed: true
 # frozen_string_literal: true
+require "backports/2.6.0"
+require "pathname"
 
 module Packwerk
   # Extracts a possible constant reference from a given AST node.
