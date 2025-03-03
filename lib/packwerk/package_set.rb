@@ -22,9 +22,11 @@ module Packwerk
 
       # sig { params(root_path: String, package_pathspec: T.nilable(PathSpec)).returns(PackageSet) }
       def load_all_from(root_path, package_pathspec: nil)
+        root_path = Pathname.new(root_path) # Convert root_path to Pathname
         package_paths = package_paths(root_path, package_pathspec || "**")
 
         packages = package_paths.map do |path|
+          path = Pathname.new(path) # Convert root_path to Pathname
           root_relative = path.dirname.relative_path_from(root_path)
           Package.new(name: root_relative.to_s, config: YAML.load_file(path))
         end
