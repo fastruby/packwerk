@@ -9,10 +9,6 @@ unless Symbol.method_defined? :match?
   end
 end
 
-require "backports/2.5.0/string/delete_prefix"
-require "backports/2.4.0/hash/transform_values"
-require "backports/2.4.0/regexp/match"
-
 require "constant_resolver"
 require "pathname"
 require "yaml"
@@ -210,7 +206,7 @@ module Packwerk
 
       packages_with_invalid_dependencies =
         packages_dependencies.each_with_object([]) do |(package, dependencies), invalid_packages|
-          invalid_dependencies = dependencies.filter { |path| invalid_package_path?(path) }
+          invalid_dependencies = dependencies.select { |path| invalid_package_path?(path) }
           invalid_packages << [package, invalid_dependencies] if invalid_dependencies.any?
         end
 

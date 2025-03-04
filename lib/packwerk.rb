@@ -4,6 +4,7 @@
 require "sorbet-runtime"
 require "active_support"
 require "fileutils"
+require "packwerk/core_ext/enumerable"
 
 # Provides String#pluralize
 require "active_support/core_ext/string"
