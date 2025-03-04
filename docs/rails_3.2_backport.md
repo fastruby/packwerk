@@ -1,83 +1,49 @@
-# Packwerk Rails 3.2 Backport Progress
+# Rails 3.2 Backport Progress
+
+This document tracks the progress and status of backporting Packwerk to support Rails 3.2.
 
 ## Current Status
 
-We have successfully set up the development environment for backporting Packwerk to Rails 3.2. 
-The initial setup includes:
-
-1. Updated the gemspec to support Rails 3.2
-2. Modified the Gemfile to use Rails 3.2.22
-3. Added necessary polyfills and compatibility gems
-4. Updated the Dockerfile to use bundler 1.17.3 (compatible with Rails 3.2)
-5. Fixed test framework integration (Test::Unit, minitest, and mocha)
+- Successfully updated dependencies in gemspec and Gemfile to work with Rails 3.2
+- Implemented backports for Ruby 2.3.8 compatibility
+- Fixed Factory class to handle cases where ERB parser is not available
+- Fixed Rails 3.2.x specific API compatibility issues:
+  - Updated `extract_application_autoload_paths` to handle different Rails versions
+  - Fixed CacheContents serialization for Rails 3.2 compatibility
+- Added centralized backports system for better organization
 
 ## Completed Changes
 
-### Gemspec Updates
-
-- Changed `activesupport` dependency to `>= 3.2` to support Rails 3.2
-- Made `bundler` a development dependency to avoid conflicts with Rails 3.2
-- Commented out `better_html` which is not compatible with Rails 3.2
-- Added `ruby-next` and `backports` for polyfills
-
-### Gemfile Updates
-
-- Set Rails version to `~> 3.2.22`
-- Added `test-unit` gem which is required for Rails 3.2
-- Added compatibility gems like `backports` and `ruby-next`
-- Removed non-essential dependencies like rubocop for now
-
-### Docker Environment
-
-- Updated the Dockerfile to use bundler 1.17.3 which is compatible with Rails 3.2
-- Successfully built Docker image with Ruby 2.3.8
-
-### Test Framework Integration
-
-- Properly integrated Test::Unit, minitest, and mocha
-- Updated the test helper to load Test::Unit before mocha
+- Updated packwerk.gemspec to support Rails 3.2+
+- Updated Gemfile to use Rails 3.2.22
+- Added backports gem for polyfills
+- Set bundler version to 1.17.3 for Ruby 2.3.8 compatibility
+- Created centralized backports system in lib/packwerk/backports.rb
+- Fixed ERB parser availability check
+- Added backports for:
+  - String#match?
+  - Symbol#match?
+- Fixed Factory class to handle missing ERB parser
+- Fixed Rails 3.2 API compatibility issues in application_load_paths.rb
+- Fixed JSON serialization issues in Cache
 
 ## Next Steps
 
-1. **Identify API Incompatibilities**:
-   - Run tests and identify failing ones due to Rails API differences
-   - Document necessary polyfills and adaptations
-
-2. **Implement Polyfills**:
-   - Add necessary ActiveSupport polyfills
-   - Document any methods that need to be handled differently
-
-3. **Adapt Autoloading Mechanism**:
-   - Replace Zeitwerk-specific code with Rails 3.2 compatible autoloading
-   - Ensure proper constant resolution
-
-4. **Test Individual Components**:
-   - Test core components separately to isolate issues
-   - Implement fixes incrementally
-
-5. **Integration Testing**:
-   - Test with a sample Rails 3.2 application
-   - Verify that all functionality works as expected
+1. Test actual usage with a Rails 3.2 application
+2. Identify any additional API differences between Rails 3.2 and Rails 5.x
+3. Create additional backports as needed
+4. Add integration tests specific to Rails 3.2
+5. Update documentation
 
 ## Rails 3.2 Specific Considerations
 
-### Autoloading
-
-- Rails 3.2 uses the classic autoloader, not Zeitwerk
-- Will need to adapt constant resolution and autoloading mechanisms
-
-### ActiveSupport
-
-- Many methods available in Rails 5+ are missing in Rails 3.2
-- Using backports and polyfills to bridge the gap
-
-### Ruby Compatibility
-
-- Backport target is Ruby 2.3.8
-- Some newer Ruby syntax may require adaptation
+- Rails 3.2 has different autoloading behavior
+- Some Rails APIs have changed between 3.2 and 5.x
+- Ruby 2.3.8 compatibility requires backports for certain methods
+- ActiveSupport functionality differences
 
 ## Known Issues
 
-1. Test framework integration is still not completely working
-2. Some test fixtures may need to be updated for Rails 3.2
-3. The autoloading mechanism will need to be completely reworked 
+- Some test cases are skipped when better_html is not available
+- Parallel processing may work differently in older Ruby versions
+- Some Rails APIs require adapters for compatibility 
