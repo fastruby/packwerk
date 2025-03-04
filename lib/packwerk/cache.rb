@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # typed: strict
 require "backports/2.4.0/regexp/match"
-
+require "json"
 require "digest"
 
 module Packwerk
@@ -16,7 +16,20 @@ module Packwerk
 
       sig { returns(String) }
       def serialize
-        to_json
+        JSON.generate({
+          file_contents_digest: file_contents_digest,
+          unresolved_references: unresolved_references.map do |ref|
+            {
+              constant_name: ref.constant_name,
+              namespace_path: ref.namespace_path,
+              relative_path: ref.relative_path,
+              source_location: {
+                line: ref.source_location.line,
+                column: ref.source_location.column
+              }
+            }
+          end
+        })
       end
 
       sig { params(serialized_cache_contents: String).returns(CacheContents) }

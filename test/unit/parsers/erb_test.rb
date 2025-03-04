@@ -9,6 +9,10 @@ require "test_helper"
 module Packwerk
   module Parsers
     class ErbTest < Minitest::Test
+      setup do
+        skip "Better HTML is not available" unless Erb.available?
+      end
+      
       test "#call returns node with valid file" do
         node = File.open(fixture_path("valid.erb"), "r") do |fixture|
           Erb.new.call(io: fixture)

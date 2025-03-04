@@ -26,6 +26,7 @@ module Packwerk
         when RUBY_REGEX
           @ruby_parser ||= Ruby.new
         when ERB_REGEX
+          return nil unless erb_parser_available?
           @erb_parser ||= erb_parser_class.new
         end
       end
@@ -37,6 +38,13 @@ module Packwerk
       def erb_parser_class=(klass)
         @erb_parser_class = klass
         @erb_parser = nil
+      end
+
+      def erb_parser_available?
+        erb_parser_class.available?
+      rescue NoMethodError
+        # If erb_parser_class doesn't respond to available?, assume it's available
+        true
       end
     end
   end

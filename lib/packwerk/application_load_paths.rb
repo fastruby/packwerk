@@ -20,9 +20,15 @@ module Packwerk
 
       sig { returns(T::Array[String]) }
       def extract_application_autoload_paths
-        Rails.application.railties
-          .select { |railtie| railtie.is_a?(Rails::Engine) }
-          .push(Rails.application)
+        railties = if Rails.application.railties.respond_to?(:to_a)
+          Rails.application.railties.to_a
+        else
+          Rails.application.railties.all
+        end
+        
+        engine_railties = railties.find_all { |railtie| railtie.is_a?(Rails::Engine) }
+        
+        (engine_railties + [Rails.application])
           .flat_map do |engine|
             paths = (engine.config.autoload_paths + engine.config.eager_load_paths + engine.config.autoload_once_paths)
             paths.map(&:to_s).uniq

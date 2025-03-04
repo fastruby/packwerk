@@ -2,8 +2,6 @@
 # frozen_string_literal: true
 
 require "ast/node"
-require "better_html"
-require "better_html/parser"
 require "parser/source/buffer"
 
 module Packwerk
@@ -11,8 +9,22 @@ module Packwerk
     class Erb
       include ParserInterface
 
-      def initialize(parser_class: BetterHtml::Parser, ruby_parser: Ruby.new)
-        @parser_class = parser_class
+      def self.available?
+        begin
+          require "better_html"
+          require "better_html/parser"
+          true
+        rescue LoadError
+          false
+        end
+      end
+
+      def initialize(parser_class: nil, ruby_parser: Ruby.new)
+        unless self.class.available?
+          raise LoadError, "The 'better_html' gem is required for ERB parsing. Please add it to your Gemfile."
+        end
+        
+        @parser_class = parser_class || BetterHtml::Parser
         @ruby_parser = ruby_parser
       end
 
