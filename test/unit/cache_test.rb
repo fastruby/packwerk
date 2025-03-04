@@ -45,7 +45,7 @@ module Packwerk
       parse_run.update_deprecations
       parse_run.update_deprecations
 
-      cache_files = Pathname.glob(Pathname.pwd.join(Pathname.new("tmp/cache/packwerk")), "**")
+      cache_files = Pathname.glob([Pathname.pwd.join(Pathname.new("tmp/cache/packwerk")).to_s, "**"])
       assert_equal cache_files.count, 3
 
       digest_file = Pathname.new("tmp/cache/packwerk").join(Digest::MD5.hexdigest(filepath.to_s))

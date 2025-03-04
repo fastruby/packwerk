@@ -18,12 +18,11 @@ Requiring backports/<ruby version> is not recommended in production. Require jus
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/tzinfo-1.2.11/lib/tzinfo/zoneinfo_timezone_info.rb:502: warning: shadowing outer local variable - i
 /workspaces/packwerk/test/support/test_macro.rb:7: warning: method redefined; discarding old test__public_path_returns_expected_path_when_using_a_user_defined_public_path
 /workspaces/packwerk/test/unit/package_test.rb:33: warning: previous definition of test__public_path_returns_expected_path_when_using_a_user_defined_public_path was here
-Run options: --seed 41259
+Run options: --seed 12929
 
 # Running:
 
-......../root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/better_html-1.0.16/lib/better_html/tokenizer/base_erb.rb:69: warning: assigned but unused variable - token
-............................................./root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_serialize
+............./root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_serialize
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_serialize was here
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_deserialize
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_deserialize was here
@@ -31,11 +30,7 @@ Run options: --seed 41259
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_serialize was here
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_deserialize
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_deserialize was here
-....../root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_serialize
-/root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_serialize was here
-/root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_deserialize
-/root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_deserialize was here
-..................../root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_serialize
+/root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_serialize
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_serialize was here
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_deserialize
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_deserialize was here
@@ -43,39 +38,12 @@ Run options: --seed 41259
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_serialize was here
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_deserialize
 /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_deserialize was here
-.....E
-
-Error:
-Packwerk::CacheTest#test__update_deprecations_writes_to_the_cache:
-TypeError: no implicit conversion of String into Integer
-    /workspaces/packwerk/test/unit/cache_test.rb:48:in `glob'
-    /workspaces/packwerk/test/unit/cache_test.rb:48:in `glob'
-    /workspaces/packwerk/test/unit/cache_test.rb:48:in `block in <class:CacheTest>'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest/test.rb:98:in `block (3 levels) in run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest/test.rb:195:in `capture_exceptions'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest/test.rb:95:in `block (2 levels) in run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:281:in `time_it'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest/test.rb:94:in `block in run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:376:in `on_signal'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest/test.rb:221:in `with_info_handler'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest/test.rb:93:in `run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:1042:in `run_one_method'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:350:in `run_one_method'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:337:in `block (2 levels) in run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:336:in `each'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:336:in `block in run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:376:in `on_signal'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:363:in `with_info_handler'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:335:in `run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:169:in `block in __run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:169:in `map'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:169:in `__run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:146:in `run'
-    /root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/minitest-5.15.0/lib/minitest.rb:73:in `block in autorun'
-
-bin/rails test /workspaces/packwerk/test/unit/cache_test.rb:26
-
-E
+................./root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_serialize
+/root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_serialize was here
+/root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: method redefined; discarding old __t_props_generated_deserialize
+/root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/sorbet-runtime-0.5.10461/lib/types/props/has_lazily_specialized_methods.rb:91: warning: previous definition of __t_props_generated_deserialize was here
+............................................................................../root/.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/better_html-1.0.16/lib/better_html/tokenizer/base_erb.rb:69: warning: assigned but unused variable - token
+...E
 
 Error:
 Packwerk::Generators::ConfigurationFileTest#test__generate_creates_a_default_configuration_file_if_there_were_empty_load_paths_array:
@@ -113,10 +81,19 @@ TypeError: no implicit conversion of Hash into Integer
 
 bin/rails test /workspaces/packwerk/test/unit/generators/configuration_file_test.rb:18
 
-......................................................................................................................................................
+......................................................................................................................F
 
-Finished in 0.851035s, 277.3094 runs/s, 632.1714 assertions/s.
-236 runs, 538 assertions, 0 failures, 2 errors, 0 skips
+Failure:
+Packwerk::CacheTest#test__update_deprecations_writes_to_the_cache [/workspaces/packwerk/test/unit/cache_test.rb:49]:
+Expected: 7
+  Actual: 3
+
+bin/rails test /workspaces/packwerk/test/unit/cache_test.rb:26
+
+.....
+
+Finished in 0.829042s, 284.6659 runs/s, 650.1480 assertions/s.
+236 runs, 539 assertions, 1 failures, 1 errors, 0 skips
 rake aborted!
 Command failed with status (1)
 /root/.rbenv/versions/2.3.8/bin/bundle:22:in `load'
