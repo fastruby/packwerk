@@ -62,7 +62,7 @@ module Packwerk
       private
 
       def fixture_path(name)
-        ROOT.join("test/fixtures/formats/erb", name).to_s
+        Pathname.new(__dir__).join("../../..").expand_path.join("test/fixtures/formats/erb", name).to_s
       end
     end
   end

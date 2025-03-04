@@ -5,7 +5,7 @@ require "rails"
 
 class Dummy < Rails::Application
   def self.skeleton(*path)
-    ROOT.join("test", "fixtures", "skeleton", *path).to_s
+    Pathname.new(__dir__).join("..").expand_path.join("test", "fixtures", "skeleton", *path).to_s
   end
 
   config.eager_load_paths    = [skeleton("components", "platform", "app", "models")]

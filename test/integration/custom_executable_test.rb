@@ -3,6 +3,7 @@
 
 require "test_helper"
 require "rails_test_helper"
+require "backports/2.4.0/string/match"
 
 module Packwerk
   module Integration

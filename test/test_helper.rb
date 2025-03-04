@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "backports/2.5.0/kernel/yield_self"
+require "backports/3.1"
 require "ruby-next"
 require 'pathname'
 

@@ -13,7 +13,7 @@ module Packwerk
       @root_path = "test/fixtures/skeleton/"
       load_paths =
         Dir.glob(File.join(@root_path, "components/*/{app,test}/*{/concerns,}"))
-          .map { |p| Pathname.new(p).relative_path_from(@root_path).to_s }
+          .map { |p| Pathname.new(p).relative_path_from(Pathname.new(@root_path)).to_s }
 
       @discovery = ConstantDiscovery.new(
         constant_resolver: ConstantResolver.new(root_path: @root_path, load_paths: load_paths),

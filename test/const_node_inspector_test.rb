@@ -3,6 +3,7 @@
 
 require "test_helper"
 require "parser_test_helper"
+require "active_support"
 
 module Packwerk
   class ConstNodeInspectorTest < ActiveSupport::TestCase

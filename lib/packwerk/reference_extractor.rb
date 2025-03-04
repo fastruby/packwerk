@@ -109,7 +109,7 @@ module Packwerk
 
       return if local_reference?(constant_name, Node.name_location(node), namespace_path)
 
-      relative_file = Pathname.new(absolute_file).relative_path_from(@root_path).to_s
+      relative_file = Pathname.new(absolute_file).relative_path_from(Pathname.new(@root_path)).to_s
       location = Node.location(node)
 
       UnresolvedReference.new(

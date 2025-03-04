@@ -9,6 +9,8 @@ unless Symbol.method_defined? :match?
   end
 end
 
+require "backports/2.5.0/string/delete_prefix"
+require "backports/2.4.0/hash/transform_values"
 require "backports/2.4.0/regexp/match"
 
 require "constant_resolver"
@@ -217,7 +219,7 @@ module Packwerk
       else
         error_locations = packages_with_invalid_dependencies.map do |package, invalid_dependencies|
           package ||= @configuration.root_path
-          package_path = Pathname.new(package).relative_path_from(@configuration.root_path)
+          package_path = Pathname.new(package).relative_path_from(Pathname.new(@configuration.root_path))
           all_invalid_dependencies = invalid_dependencies.map { |d| "  - #{d}" }
 
           <<~EOS
@@ -300,7 +302,7 @@ module Packwerk
 
     sig { params(path: String).returns(Pathname) }
     def relative_path(path)
-      Pathname.new(path).relative_path_from(@configuration.root_path)
+      Pathname.new(path).relative_path_from(Pathname.new(@configuration.root_path))
     end
 
     sig { params(path: T.untyped).returns(T::Boolean) }
