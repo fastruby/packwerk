@@ -1,6 +1,10 @@
 # typed: true
 # frozen_string_literal: true
 
+require "backports/2.5.0/kernel/yield_self"
+require "ruby-next"
+require 'pathname'
+
 ENV["RAILS_ENV"] = "test"
 
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))

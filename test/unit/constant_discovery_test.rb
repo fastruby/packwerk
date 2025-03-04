@@ -1,6 +1,8 @@
 # typed: ignore
 # frozen_string_literal: true
 
+require "backports/2.5.0/hash/transform_keys"
+require "backports/2.4.0/hash/transform_values"
 require "test_helper"
 
 module Packwerk

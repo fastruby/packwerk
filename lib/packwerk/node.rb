@@ -3,6 +3,7 @@
 
 require "parser"
 require "parser/ast/node"
+require "backports/2.5.0/array/prepend"
 
 module Packwerk
   # Convenience methods for working with Parser::AST::Node nodes.

@@ -1,6 +1,16 @@
 # typed: strict
 # frozen_string_literal: true
 
+unless Symbol.method_defined? :match?
+  class Symbol
+    def match?(*args)
+      !match(*args).nil?
+    end
+  end
+end
+
+require "backports/2.4.0/regexp/match"
+
 require "constant_resolver"
 require "pathname"
 require "yaml"

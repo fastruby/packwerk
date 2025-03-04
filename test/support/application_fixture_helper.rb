@@ -1,6 +1,28 @@
 # typed: true
 # frozen_string_literal: true
 
+unless Binding.method_defined?(:irb)
+  require 'irb'
+
+  class Binding
+    def irb
+      IRB.setup(eval("__FILE__"))#, argv: [])
+      workspace = IRB::WorkSpace.new(self)
+
+      # Handle different IRB versions
+      if IRB.respond_to?(:create_irb)
+        irb = IRB.create_irb(workspace)
+        irb.context.main = self
+      else
+        irb = IRB::Irb.new(workspace)
+      end
+
+      IRB.conf[:MAIN_CONTEXT] = irb.context
+      irb.eval_input
+    end
+  end
+end
+
 module ApplicationFixtureHelper
   TEMP_FIXTURE_DIR = ROOT.join("tmp", "fixtures").to_s
   DEFAULT_TEMPLATE = :minimal

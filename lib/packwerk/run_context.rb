@@ -1,6 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
+require "backports/2.5.0/string/delete_prefix"
 require "constant_resolver"
 
 module Packwerk
