@@ -2,6 +2,11 @@
 # frozen_string_literal: true
 
 require "sorbet-runtime"
+
+# Apply all necessary backports for Rails 3.2 and Ruby 2.3.8 compatibility
+require "packwerk/backports"
+Packwerk::Backports.apply!
+
 require "active_support"
 require "fileutils"
 require "packwerk/core_ext/enumerable"

@@ -1,9 +1,6 @@
 # typed: true
 # frozen_string_literal: true
 
-require "backports/2.5.0/kernel/yield_self"
-require "backports/3.1"
-require "ruby-next"
 require 'pathname'
 
 ENV["RAILS_ENV"] = "test"
@@ -11,6 +8,7 @@ ENV["RAILS_ENV"] = "test"
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 ROOT = Pathname.new(__dir__).join("..").expand_path
 
+# Load packwerk with all backports
 require "packwerk"
 
 # Test frameworks - order matters
