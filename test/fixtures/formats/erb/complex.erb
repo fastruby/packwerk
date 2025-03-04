@@ -1,0 +1,116 @@
+<%# Complex ERB fixture for testing mock parser edge cases %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @page_title || "Default Title" %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <%# Multi-line Ruby code %>
+  <% 
+    items = [
+      { name: "Item 1", price: 100 },
+      { name: "Item 2", price: 200 },
+      { name: "Item 3", price: 300 }
+    ]
+    total = items.sum { |item| item[:price] }
+  %>
+  
+  <%# ERB inside attributes - challenging for regex-based parsing %>
+  <meta name="description" content="<%= @meta_description&.gsub('"', '&quot;') %>">
+  
+  <style>
+    /* CSS with ERB variable interpolation */
+    .highlight {
+      background-color: <%= @highlight_color || "#ffff00" %>;
+    }
+    
+    <% if @dark_mode %>
+    body {
+      background-color: #222;
+      color: #eee;
+    }
+    <% end %>
+  </style>
+  
+  <%# ERB in JavaScript - challenging for mock parser %>
+  <script>
+    // JavaScript with ERB variables
+    var config = {
+      userId: <%= @user&.id || 'null' %>,
+      features: <%= @features.to_json %>,
+      // Complex nested ERB with method calls
+      lastLogin: <%= @user&.last_login&.strftime("%Y-%m-%d") || 'null' %>
+    };
+    
+    <% if @enable_tracking %>
+    (function() {
+      var trackingId = '<%= @tracking_id %>';
+      // More JS code
+    })();
+    <% end %>
+  </script>
+</head>
+<body>
+  <header>
+    <h1><%= @page_header || "Welcome" %></h1>
+    
+    <%# Complex conditional logic %>
+    <nav>
+      <ul>
+        <% navigation_items = @navigation || default_navigation %>
+        <% navigation_items.each do |item| %>
+          <li class="<%= item[:active] ? 'active' : '' %>">
+            <a href="<%= item[:url] %>"><%= item[:label] %></a>
+            
+            <%# Nested ERB conditions - challenging %>
+            <% if item[:has_submenu] %>
+              <ul class="submenu">
+                <% item[:submenu_items].each do |subitem| %>
+                  <li><a href="<%= subitem[:url] %>"><%= subitem[:label] %></a></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <%# Method calls with blocks - should be extracted properly %>
+    <%= content_for :main do %>
+      <section>
+        <h2><%= @section_title %></h2>
+        <%= render partial: "shared/notification", locals: { message: @message } %>
+        
+        <%# Looping with index %>
+        <% items.each_with_index do |item, index| %>
+          <div class="item <%= index.even? ? 'even' : 'odd' %>">
+            <h3><%= item[:name] %></h3>
+            <p>Price: <%= number_to_currency(item[:price]) %></p>
+          </div>
+        <% end %>
+      </section>
+    <% end %>
+    
+    <%# Mixed content with multiple ERB tags inline %>
+    <p>Today is <%= Date.today.strftime("%B %d, %Y") %> and the time is <%= Time.now.strftime("%H:%M") %></p>
+    
+    <%# Complex Ruby with chained methods %>
+    <% 
+      filtered_items = items
+        .select { |i| i[:price] > 150 }
+        .map { |i| i[:name].upcase }
+        .join(", ")
+    %>
+    <p>Expensive items: <%= filtered_items %></p>
+  </main>
+  
+  <footer>
+    <%# Comment that should be ignored by the parser %>
+    <%# The copyright year below should be extracted as Ruby code %>
+    <p>&copy; <%= Time.now.year %> Our Company</p>
+  </footer>
+</body>
+</html> 

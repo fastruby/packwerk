@@ -29,6 +29,13 @@ module Packwerk
           # Always return an ERB parser even if better_html is not available
           # Our mock implementation will handle the case where better_html is missing
           @erb_parser ||= erb_parser_class.new
+          
+          # Log diagnostic information when using mock parser
+          if using_mock_erb_parser?
+            debug_log("Using mock ERB parser for #{path} - better_html not available")
+          end
+          
+          @erb_parser
         end
       end
 
@@ -46,6 +53,17 @@ module Packwerk
       rescue NoMethodError
         # If erb_parser_class doesn't respond to available?, assume it's available
         true
+      end
+
+      def using_mock_erb_parser?
+        !erb_parser_available?
+      end
+
+      private
+
+      def debug_log(message)
+        return unless ENV["PACKWERK_DEBUG"]
+        $stderr.puts("[PACKWERK_DEBUG] #{message}")
       end
     end
   end
