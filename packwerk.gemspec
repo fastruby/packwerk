@@ -43,11 +43,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency("ruby-next")
   spec.add_dependency("backports")
 
+  # Changed: Support for Rails 3.2 through 5.x+
   spec.add_dependency("activesupport", ">= 3.2")
   spec.add_dependency("constant_resolver")
   spec.add_dependency("parallel")
   spec.add_dependency("sorbet-runtime", "0.5.10461")
-  spec.add_dependency("bundler")
+  # Make bundler a development dependency instead to avoid conflicts with Rails 3.2
+  spec.add_development_dependency("bundler")
   spec.add_dependency("digest")
 
   spec.add_development_dependency("rake")
@@ -60,6 +62,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency("ast")
   spec.add_dependency("parser")
 
-  # For ERB parsing
-  spec.add_dependency("better_html")
+  # For ERB parsing - commented out for Rails 3.2 compatibility
+  # spec.add_dependency("better_html")
 end

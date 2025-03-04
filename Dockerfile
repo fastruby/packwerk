@@ -26,8 +26,8 @@ RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 RUN rbenv install 2.3.8 && \
     rbenv global 2.3.8
 
-# Install bundler
-RUN gem install bundler -v '2.2.5'
+# Install bundler 1.17.3 for Rails 3.2 compatibility
+RUN gem install bundler -v '1.17.3'
 
 # Set working directory
 WORKDIR /app

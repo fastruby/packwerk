@@ -13,9 +13,12 @@ ROOT = Pathname.new(__dir__).join("..").expand_path
 
 require "packwerk"
 
+# Test frameworks - order matters
+require "test/unit"
 require "minitest/autorun"
 require "minitest/focus"
-require "mocha/minitest"
+require "mocha/test_unit"
+
 require "support/application_fixture_helper"
 require "support/factory_helper"
 require "support/rails_application_fixture_helper"
