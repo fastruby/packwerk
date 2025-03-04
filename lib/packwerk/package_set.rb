@@ -4,6 +4,7 @@
 require "pathname"
 
 module Packwerk
+  # disabling sorbet in this file as it's breaking some tests
   # PathSpec = T.type_alias { T.any(String, T::Array[String]) }
 
   # A set of {Packwerk::Package}s as well as methods to parse packages from the filesystem.
