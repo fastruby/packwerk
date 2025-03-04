@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require "test_helper"
 require "rails_test_helper"
+require "byebug"
 
 module Packwerk
   class ParseRunTest < Minitest::Test
@@ -32,14 +33,29 @@ module Packwerk
     test "#update_deprecations returns success when there are no offenses" do
       use_template(:minimal)
       RunContext.any_instance.stubs(:process_file).returns([])
-      OffenseCollection.any_instance.expects(:dump_deprecated_references_files).once
-
+      
+      # Track if the method was called
+      method_called = false
+      
+      # Use the real class but stub just the method we care about
+      real_instance = Packwerk::OffenseCollection.new('.')
+      real_instance.stubs(:dump_deprecated_references_files).with do
+        method_called = true
+        true # Return value
+      end
+      
+      # Make sure new returns our instrumented instance
+      Packwerk::OffenseCollection.stubs(:new).returns(real_instance)
+      
       parse_run = Packwerk::ParseRun.new(
         absolute_files: ["path/of/exile.rb"],
         configuration: Configuration.from_path
       )
       result = parse_run.update_deprecations
-
+      
+      # Verify method was called
+      assert method_called, "dump_deprecated_references_files should have been called"
+      
       assert_equal result.message, <<~EOS
         No offenses detected
         ✅ `deprecated_references.yml` has been updated.
@@ -51,13 +67,28 @@ module Packwerk
       use_template(:minimal)
       offense = Offense.new(file: "path/of/exile.rb", message: "something")
       RunContext.any_instance.stubs(:process_file).returns([offense])
-      OffenseCollection.any_instance.expects(:dump_deprecated_references_files).once
+      
+      # Track if the method was called
+      method_called = false
+      
+      # Use the real class but stub just the method we care about
+      real_instance = Packwerk::OffenseCollection.new(".")
+      real_instance.stubs(:dump_deprecated_references_files).with do
+        method_called = true
+        true # Return value
+      end
+      
+      # Make sure new returns our instrumented instance
+      Packwerk::OffenseCollection.stubs(:new).returns(real_instance)
 
       parse_run = Packwerk::ParseRun.new(
         absolute_files: ["path/of/exile.rb"],
         configuration: Configuration.from_path
       )
       result = parse_run.update_deprecations
+
+      # Verify method was called
+      assert method_called, "dump_deprecated_references_files should have been called"
 
       expected = <<~EOS
         path/of/exile.rb

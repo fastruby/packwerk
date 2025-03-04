@@ -11,6 +11,29 @@ ROOT = Pathname.new(__dir__).join("..").expand_path
 # Load packwerk with all backports
 require "packwerk"
 
+unless Binding.method_defined?(:irb)
+  require 'irb'
+
+  class Binding
+    def irb
+      IRB.setup(eval("__FILE__"))#, argv: [])
+      workspace = IRB::WorkSpace.new(self)
+
+      # Handle different IRB versions
+      if IRB.respond_to?(:create_irb)
+        irb = IRB.create_irb(workspace)
+        irb.context.main = self
+      else
+        irb = IRB::Irb.new(workspace)
+      end
+
+      IRB.conf[:MAIN_CONTEXT] = irb.context
+      irb.eval_input
+    end
+  end
+end
+
+
 # Test frameworks - order matters
 require "test/unit"
 require "minitest/autorun"
