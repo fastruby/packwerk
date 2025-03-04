@@ -39,6 +39,7 @@ require "test/unit"
 require "minitest/autorun"
 require "minitest/focus"
 require "mocha/test_unit"
+require "mocha/minitest"
 
 require "support/application_fixture_helper"
 require "support/factory_helper"

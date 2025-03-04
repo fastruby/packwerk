@@ -1,0 +1,9 @@
+rm tmp/warnings.log
+rm tmp/output.log
+
+# don't run tests in test/support and fixtures
+for file in test/**/*_test.rb; do
+  echo "executing bundle exec rake test TEST=$file"
+  # append to output.log and warnings.log
+  bundle exec rake test TEST="$file" 1>>tmp/output.log 2>>tmp/warnings.log
+done
