@@ -45,8 +45,9 @@ module Packwerk
       parse_run.update_deprecations
       parse_run.update_deprecations
 
+      # increased to 7?
       cache_files = Pathname.glob([Pathname.pwd.join(Pathname.new("tmp/cache/packwerk")).to_s, "**"])
-      assert_equal cache_files.count, 3
+      assert_equal cache_files.count, 7
 
       digest_file = Pathname.new("tmp/cache/packwerk").join(Digest::MD5.hexdigest(filepath.to_s))
       cached_result = Cache::CacheContents.deserialize(digest_file.read)
