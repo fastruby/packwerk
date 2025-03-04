@@ -1,9 +1,6 @@
 # typed: strict
 # frozen_string_literal: true
 
-# Explicitly require Mocha::API for Mocha 2.x compatibility
-require "mocha/api"
-
 module TypedMock
   extend T::Sig
   include(::Mocha::API)
