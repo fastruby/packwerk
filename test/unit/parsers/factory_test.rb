@@ -20,8 +20,7 @@ module Packwerk
       end
 
       test "#for_path gives ERB parser for common ERB paths" do
-        skip "Better HTML is not available" unless Parsers::Erb.available?
-        
+        # No need to skip this test since we now have a mock implementation
         assert_instance_of(Parsers::Erb, factory.for_path("foo.html.erb"))
         assert_instance_of(Parsers::Erb, factory.for_path("foo.md.erb"))
         assert_instance_of(Parsers::Erb, factory.for_path("/sub/directory/foo.erb"))

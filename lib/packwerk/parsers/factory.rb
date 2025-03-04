@@ -26,7 +26,8 @@ module Packwerk
         when RUBY_REGEX
           @ruby_parser ||= Ruby.new
         when ERB_REGEX
-          return nil unless erb_parser_available?
+          # Always return an ERB parser even if better_html is not available
+          # Our mock implementation will handle the case where better_html is missing
           @erb_parser ||= erb_parser_class.new
         end
       end
