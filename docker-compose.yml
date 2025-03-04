@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app  # Mount the current directory to /app in the container
+      - gem_cache:/app/vendor/bundle  # Volume for gems
+    environment:
+      - BUNDLE_PATH=/app/vendor/bundle
+      - BUNDLE_BIN=/app/vendor/bundle/bin
+      - GEM_HOME=/app/vendor/bundle
+    working_dir: /app
+    command: bash  # Start with bash for debugging
+
+volumes:
+  gem_cache:  # Define the volume for gem caching 

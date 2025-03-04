@@ -19,7 +19,7 @@ RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv && \
     git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 
 # Add rbenv to PATH
-ENV PATH /root/.rbenv/bin:$PATH
+ENV PATH /root/.rbenv/bin:/root/.rbenv/shims:$PATH
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 
 # Install Ruby 2.3.8
@@ -27,7 +27,7 @@ RUN rbenv install 2.3.8 && \
     rbenv global 2.3.8
 
 # Install bundler
-# RUN gem install bundler -v 2.2.15
+RUN gem install bundler -v '2.2.5'
 
-# Verify Ruby version
-# RUN ruby -v
+# Set working directory
+WORKDIR /app
