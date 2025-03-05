@@ -63,7 +63,30 @@ module Packwerk
       begin
         constant = @resolver.resolve(const_name, current_namespace_path: current_namespace_path)
       rescue ConstantResolver::Error => e
-        raise(ConstantResolver::Error, e.message)
+        # Handle constant resolution errors according to shitlist configuration
+        if ENV["CONSTANT_DISCOVERY_SHITLIST_FILE"].nil?
+          # No shitlist file configured, raise the error
+          raise(ConstantResolver::Error, e.message)
+        else # shitlist file is configured
+          file_path = ENV.fetch("CONSTANT_DISCOVERY_SHITLIST_FILE")
+          
+          if File.exist?(file_path)
+            # Check if the error is already in the shitlist
+            current_content = File.read(file_path)
+            if current_content.include?(e.message)
+              # Error already in shitlist, continue silently
+            else
+              # Error not in shitlist, raise with instructions
+              raise(ConstantResolver::Error, "#{e.message}\n\nThis error is not in the shitlist file '#{file_path}'. " \
+                "Either remove the shitlist file to regenerate it, or manually add this error to the file.")
+            end
+          else
+            # Shitlist file doesn't exist but env var is set, create and append error
+            File.write(file_path, e.message)
+          end
+        end
+        
+        return nil
       end
 
       return unless constant
