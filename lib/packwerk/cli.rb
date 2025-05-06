@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "optparse"
@@ -21,7 +20,7 @@ module Packwerk
       @environment = environment
       @style = style
       @configuration = configuration || Configuration.from_path
-      @progress_formatter = Formatters::ProgressFormatter.new(@out
+      @progress_formatter = Formatters::ProgressFormatter.new(@out)
       @offenses_formatter = offenses_formatter || Formatters::OffensesFormatter.new(style: @style)
     end
 

@@ -218,6 +218,7 @@ module Packwerk
       )
 
       def type_of(node)
+        return nil if node.nil?
         node.type
       end
 

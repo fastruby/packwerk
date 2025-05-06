@@ -8,6 +8,10 @@ module Packwerk
       @name = name
     end
 
+    def serialize
+      name.downcase
+    end
+
     Privacy = new("Privacy")
     Dependency = new("Dependency")
   end
