@@ -12,7 +12,7 @@ module Packwerk
     Location = Struct.new(:line, :column)
 
     class << self
-      extend T::Sig
+      
 
       def class_or_module_name(class_or_module_node)
         case type_of(class_or_module_node)
@@ -183,7 +183,7 @@ module Packwerk
         class_node.children[1]
       end
 
-      sig { params(ancestors: T::Array[AST::Node]).returns(String) }
+
       def parent_module_name(ancestors:)
         definitions = ancestors
           .select { |n| [CLASS, MODULE, CONSTANT_ASSIGNMENT, BLOCK].include?(type_of(n)) }

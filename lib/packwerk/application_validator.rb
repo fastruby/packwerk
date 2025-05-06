@@ -9,15 +9,8 @@ module Packwerk
   # Checks the structure of the application and its packwerk configuration to make sure we can run a check and deliver
   # correct results.
   class ApplicationValidator
-    extend T::Sig
+    
 
-    sig do
-      params(
-        config_file_path: String,
-        configuration: Configuration,
-        environment: String
-      ).void
-    end
     def initialize(config_file_path:, configuration:, environment:)
       @config_file_path = config_file_path
       @configuration = configuration
@@ -27,18 +20,18 @@ module Packwerk
     end
 
     class Result < T::Struct
-      extend T::Sig
+      
 
       const :ok, T::Boolean
       const :error_value, T.nilable(String)
 
-      sig { returns(T::Boolean) }
+
       def ok?
         ok
       end
     end
 
-    sig { returns(Result) }
+
     def check_all
       results = [
         check_package_manifests_for_privacy,
@@ -53,7 +46,7 @@ module Packwerk
       merge_results(results)
     end
 
-    sig { returns(Result) }
+
     def check_package_manifests_for_privacy
       privacy_settings = package_manifests_settings_for("enforce_privacy")
 
@@ -84,7 +77,7 @@ module Packwerk
       merge_results(results, separator: "\n---\n")
     end
 
-    sig { returns(Result) }
+
     def check_package_manifest_syntax
       errors = []
 
@@ -132,7 +125,7 @@ module Packwerk
       end
     end
 
-    sig { returns(Result) }
+
     def check_application_structure
       resolver = ConstantResolver.new(
         root_path: @configuration.root_path.to_s,
@@ -147,7 +140,7 @@ module Packwerk
       end
     end
 
-    sig { returns(Result) }
+
     def check_acyclic_graph
       edges = @package_set.flat_map do |package|
         package.dependencies.map { |dependency| [package, @package_set.fetch(dependency)] }
@@ -170,7 +163,7 @@ module Packwerk
       end
     end
 
-    sig { returns(Result) }
+
     def check_package_manifest_paths
       all_package_manifests = package_manifests("**/")
       package_paths_package_manifests = package_manifests(package_glob)
@@ -191,7 +184,7 @@ module Packwerk
       end
     end
 
-    sig { returns(Result) }
+
     def check_valid_package_dependencies
       packages_dependencies = package_manifests_settings_for("dependencies")
         .delete_if { |_, deps| deps.nil? }
@@ -227,7 +220,7 @@ module Packwerk
       end
     end
 
-    sig { returns(Result) }
+
     def check_root_package_exists
       root_package_path = File.join(@configuration.root_path, "package.yml")
       all_packages_manifests = package_manifests(package_glob)
@@ -253,7 +246,7 @@ module Packwerk
     # to the string:
     #
     #   ["a -> b -> c -> a", "b -> c -> b"]
-    sig { params(cycles: T.untyped).returns(T::Array[String]) }
+
     def build_cycle_strings(cycles)
       cycles.map do |cycle|
         cycle_strings = cycle.map(&:to_s)
@@ -262,38 +255,38 @@ module Packwerk
       end
     end
 
-    sig { params(setting: T.untyped).returns(T.untyped) }
+
     def package_manifests_settings_for(setting)
       package_manifests.map { |f| [f, (YAML.load_file(File.join(f)) || {})[setting]] }
     end
 
-    sig { params(list: T.untyped).returns(T.untyped) }
+
     def format_yaml_strings(list)
       list.sort.map { |p| "- \"#{p}\"" }.join("\n")
     end
 
-    sig { returns(T.any(T::Array[String], String)) }
+
     def package_glob
       @configuration.package_paths || "**"
     end
 
-    sig { params(glob_pattern: T.any(T::Array[String], String)).returns(T::Array[String]) }
+
     def package_manifests(glob_pattern = package_glob)
       PackageSet.package_paths(@configuration.root_path, glob_pattern, @configuration.exclude)
         .map { |f| File.realpath(f) }
     end
 
-    sig { params(paths: T::Array[String]).returns(T::Array[Pathname]) }
+
     def relative_paths(paths)
       paths.map { |path| relative_path(path) }
     end
 
-    sig { params(path: String).returns(Pathname) }
+
     def relative_path(path)
       Pathname.new(path).relative_path_from(Pathname.new(@configuration.root_path))
     end
 
-    sig { params(path: T.untyped).returns(T::Boolean) }
+
     def invalid_package_path?(path)
       # Packages at the root can be implicitly specified as "."
       return false if path == "."
@@ -302,7 +295,7 @@ module Packwerk
       !File.file?(package_path)
     end
 
-    sig { params(constants: T.untyped, config_file_path: String).returns(T::Array[Result]) }
+
     def assert_constants_can_be_loaded(constants, config_file_path)
       constants.map do |constant|
         if !constant.start_with?("::")
@@ -317,7 +310,7 @@ module Packwerk
       end
     end
 
-    sig { params(name: T.untyped, config_file_path: T.untyped).returns(Result) }
+
     def private_constant_unresolvable(name, config_file_path)
       explicit_filepath = (name.start_with?("::") ? name[2..-1] : name).underscore + ".rb"
 
@@ -330,7 +323,7 @@ module Packwerk
       )
     end
 
-    sig { params(name: T.untyped, location: T.untyped, config_file_path: T.untyped).returns(Result) }
+
     def check_private_constant_location(name, location, config_file_path)
       declared_package = @package_set.package_from_path(relative_path(config_file_path))
       constant_package = @package_set.package_from_path(location)
@@ -346,9 +339,6 @@ module Packwerk
       end
     end
 
-    sig do
-      params(results: T::Array[Result], separator: String, errors_headline: String).returns(Result)
-    end
     def merge_results(results, separator: "\n===\n", errors_headline: "")
       results.reject!(&:ok?)
 

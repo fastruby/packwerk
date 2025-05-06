@@ -8,7 +8,7 @@ require "backports/2.4.0/hash/transform_values"
 module Packwerk
   # Holds the context of a Packwerk run across multiple files.
   class RunContext
-    extend T::Sig
+    
 
     DEFAULT_CHECKERS = T.let([
       ::Packwerk::ReferenceChecking::Checkers::DependencyChecker.new,
@@ -16,11 +16,8 @@ module Packwerk
     ], T::Array[ReferenceChecking::Checkers::Checker])
 
     class << self
-      extend T::Sig
+      
 
-      sig do
-        params(configuration: Configuration).returns(RunContext)
-      end
       def from_configuration(configuration)
         inflector = ActiveSupport::Inflector
 
@@ -37,19 +34,6 @@ module Packwerk
       end
     end
 
-    sig do
-      params(
-        root_path: String,
-        load_paths: T::Array[String],
-        inflector: T.class_of(ActiveSupport::Inflector),
-        cache_directory: Pathname,
-        config_path: T.nilable(String),
-        package_paths: T.nilable(T.any(T::Array[String], String)),
-        custom_associations: AssociationInspector::CustomAssociations,
-        checkers: T::Array[ReferenceChecking::Checkers::Checker],
-        cache_enabled: T::Boolean,
-      ).void
-    end
     def initialize(
       root_path:,
       load_paths:,
@@ -79,7 +63,7 @@ module Packwerk
       )
     end
 
-    sig { params(absolute_file: String).returns(T::Array[Packwerk::Offense]) }
+
     def process_file(absolute_file:)
       unresolved_references_and_offenses = file_processor.call(absolute_file)
       references_and_offenses = ReferenceExtractor.get_fully_qualified_references_and_offenses_from(
@@ -92,12 +76,12 @@ module Packwerk
 
     private
 
-    sig { returns(FileProcessor) }
+
     def file_processor
       @file_processor ||= FileProcessor.new(node_processor_factory: node_processor_factory, cache: @cache)
     end
 
-    sig { returns(NodeProcessorFactory) }
+
     def node_processor_factory
       NodeProcessorFactory.new(
         context_provider: context_provider,
@@ -106,7 +90,7 @@ module Packwerk
       )
     end
 
-    sig { returns(ConstantDiscovery) }
+
     def context_provider
       @context_provider ||= ::Packwerk::ConstantDiscovery.new(
         constant_resolver: resolver,
@@ -114,7 +98,7 @@ module Packwerk
       )
     end
 
-    sig { returns(ConstantResolver) }
+
     def resolver
       ConstantResolver.new(
         root_path: @root_path,
@@ -123,12 +107,12 @@ module Packwerk
       )
     end
 
-    sig { returns(PackageSet) }
+
     def package_set
       ::Packwerk::PackageSet.load_all_from(@root_path, package_pathspec: @package_paths)
     end
 
-    sig { returns(T::Array[ConstantNameInspector]) }
+
     def constant_name_inspectors
       [
         ::Packwerk::ConstNodeInspector.new,

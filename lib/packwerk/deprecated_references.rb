@@ -5,13 +5,13 @@ require "yaml"
 
 module Packwerk
   class DeprecatedReferences
-    extend T::Sig
+    
 
     ENTRIES_TYPE = T.type_alias do
       T::Hash[String, T.untyped]
     end
 
-    sig { params(package: Packwerk::Package, filepath: String).void }
+
     def initialize(package, filepath)
       @package = package
       @filepath = filepath
@@ -19,10 +19,6 @@ module Packwerk
       @deprecated_references = T.let(nil, T.nilable(ENTRIES_TYPE))
     end
 
-    sig do
-      params(reference: Packwerk::Reference, violation_type: ViolationType)
-        .returns(T::Boolean)
-    end
     def listed?(reference, violation_type:)
       violated_constants_found = deprecated_references.dig(reference.constant.package.name, reference.constant.name)
       return false unless violated_constants_found
@@ -33,7 +29,7 @@ module Packwerk
       violated_constants_found.fetch("violations", []).include?(violation_type.serialize)
     end
 
-    sig { params(reference: Packwerk::Reference, violation_type: Packwerk::ViolationType).returns(T::Boolean) }
+
     def add_entries(reference, violation_type)
       package_violations = @new_entries.fetch(reference.constant.package.name, {})
       entries_for_file = package_violations[reference.constant.name] ||= {}
@@ -48,7 +44,7 @@ module Packwerk
       listed?(reference, violation_type: violation_type)
     end
 
-    sig { returns(T::Boolean) }
+
     def stale_violations?
       prepare_entries_for_dump
       deprecated_references.any? do |package, package_violations|
@@ -66,7 +62,7 @@ module Packwerk
       end
     end
 
-    sig { void }
+
     def dump
       if @new_entries.empty?
         File.delete(@filepath) if File.exist?(@filepath)
@@ -89,7 +85,7 @@ module Packwerk
 
     private
 
-    sig { returns(ENTRIES_TYPE) }
+
     def prepare_entries_for_dump
       @new_entries.each do |package_name, package_violations|
         package_violations.each do |_, entries_for_file|
@@ -102,7 +98,7 @@ module Packwerk
       @new_entries = @new_entries.sort.to_h
     end
 
-    sig { returns(ENTRIES_TYPE) }
+
     def deprecated_references
       @deprecated_references ||= if File.exist?(@filepath)
         load_yaml(@filepath)
@@ -111,7 +107,7 @@ module Packwerk
       end
     end
 
-    sig { params(filepath: String).returns(ENTRIES_TYPE) }
+
     def load_yaml(filepath)
       YAML.load_file(filepath) || {}
     rescue Psych::Exception

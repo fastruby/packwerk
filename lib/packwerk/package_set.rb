@@ -9,7 +9,7 @@ module Packwerk
 
   # A set of {Packwerk::Package}s as well as methods to parse packages from the filesystem.
   class PackageSet
-    # extend T::Sig
+    # 
     # extend T::Generic
     include Enumerable
 
@@ -18,9 +18,9 @@ module Packwerk
     PACKAGE_CONFIG_FILENAME = "package.yml"
 
     class << self
-      # extend T::Sig
+      # 
 
-      # sig { params(root_path: String, package_pathspec: T.nilable(PathSpec)).returns(PackageSet) }
+      
       def load_all_from(root_path, package_pathspec: nil)
         package_paths = package_paths(root_path, package_pathspec || "**")
 
@@ -34,13 +34,6 @@ module Packwerk
         new(packages)
       end
 
-      # sig do
-      #   params(
-      #     root_path: String,
-      #     package_pathspec: PathSpec,
-      #     exclude_pathspec: T.nilable(PathSpec)
-      #   ).returns(T::Array[Pathname])
-      # end
       def package_paths(root_path, package_pathspec, exclude_pathspec = [])
         exclude_pathspec = Array(exclude_pathspec).dup
           .push(Bundler.bundle_path.join("**").to_s)
@@ -57,13 +50,13 @@ module Packwerk
 
       private
 
-      # sig { params(packages: T::Array[Package]).void }
+      
       def create_root_package_if_none_in(packages)
         return if packages.any?(&:root?)
         packages << Package.new(name: Package::ROOT_PACKAGE_NAME, config: nil)
       end
 
-      # sig { params(globs: T::Array[String], path: Pathname).returns(T::Boolean) }
+      
       def exclude_path?(globs, path)
         globs.any? do |glob|
           path.realpath.fnmatch(glob, File::FNM_EXTGLOB)
@@ -71,10 +64,10 @@ module Packwerk
       end
     end
 
-    # sig { returns(T::Hash[String, Package]) }
+    
     attr_reader :packages
 
-    # sig { params(packages: T::Array[Package]).void }
+    
     def initialize(packages)
       # We want to match more specific paths first
       sorted_packages = packages.sort_by { |package| -package.name.length }
@@ -83,17 +76,17 @@ module Packwerk
       @package_from_path = T.let({}, T::Hash[String, T.nilable(Package)])
     end
 
-    # sig { override.params(blk: T.proc.params(arg0: Package).returns(T.untyped)).returns(T.untyped) }
+    
     def each(&blk)
       packages.values.each(&blk)
     end
 
-    # sig { params(name: String).returns(T.nilable(Package)) }
+    
     def fetch(name)
       packages[name]
     end
 
-    # sig { params(file_path: T.any(Pathname, String)).returns(Package) }
+    
     def package_from_path(file_path)
       path_string = file_path.to_s
       @package_from_path[path_string] ||= T.must(packages.values.find { |package| package.package_path?(path_string) })

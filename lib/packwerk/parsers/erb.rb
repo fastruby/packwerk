@@ -14,7 +14,7 @@ module Packwerk
     # ERB parser for Packwerk
     # Handles parsing of ERB templates to extract Ruby code
     class Erb
-      extend T::Sig
+      
       include ParserInterface
 
       # Checks whether the better_html gem is available

@@ -4,15 +4,6 @@
 module Packwerk
   # Extracts a possible constant reference from a given AST node.
   class ReferenceExtractor
-    extend T::Sig
-
-    sig do
-      params(
-        constant_name_inspectors: T::Array[Packwerk::ConstantNameInspector],
-        root_node: ::AST::Node,
-        root_path: String,
-      ).void
-    end
     def initialize(
       constant_name_inspectors:,
       root_node:,
@@ -23,13 +14,6 @@ module Packwerk
       @local_constant_definitions = ParsedConstantDefinitions.new(root_node: root_node)
     end
 
-    sig do
-      params(
-        node: Parser::AST::Node,
-        ancestors: T::Array[Parser::AST::Node],
-        absolute_file: String
-      ).returns(T.nilable(UnresolvedReference))
-    end
     def reference_from_node(node, ancestors:, absolute_file:)
       constant_name = T.let(nil, T.nilable(String))
 
@@ -49,12 +33,6 @@ module Packwerk
       end
     end
 
-    sig do
-      params(
-        unresolved_references_and_offenses: T::Array[T.any(UnresolvedReference, Offense)],
-        context_provider: ConstantDiscovery
-      ).returns(T::Array[T.any(Reference, Offense)])
-    end
     def self.get_fully_qualified_references_and_offenses_from(unresolved_references_and_offenses, context_provider)
       fully_qualified_references_and_offenses = T.let([], T::Array[T.any(Reference, Offense)])
 
@@ -96,14 +74,6 @@ module Packwerk
 
     private
 
-    sig do
-      params(
-        constant_name: String,
-        node: Parser::AST::Node,
-        ancestors: T::Array[Parser::AST::Node],
-        absolute_file: String
-      ).returns(T.nilable(UnresolvedReference))
-    end
     def reference_from_constant(constant_name, node:, ancestors:, absolute_file:)
       namespace_path = Node.enclosing_namespace_path(node, ancestors: ancestors)
 

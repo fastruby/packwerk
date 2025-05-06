@@ -22,11 +22,3 @@ commands:
         bin/rake test
       fi
   style: "bin/rubocop -D --auto-correct"
-  typecheck:
-    desc: "run Sorbet typechecking"
-    run: "bin/srb tc"
-    aliases: ['tc']
-    subcommands:
-      update:
-        desc: "update RBIs for gems"
-        run: "bin/tapioca sync -c 'dev typecheck update'"

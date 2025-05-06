@@ -6,20 +6,12 @@ require "parallel"
 
 module Packwerk
   class ParseRun
-    extend T::Sig
+    
 
     ProcessFileProc = T.type_alias do
       T.proc.params(path: String).returns(T::Array[Offense])
     end
 
-    sig do
-      params(
-        absolute_files: T::Array[String],
-        configuration: Configuration,
-        progress_formatter: Formatters::ProgressFormatter,
-        offenses_formatter: OffensesFormatter,
-      ).void
-    end
     def initialize(
       absolute_files:,
       configuration:,
@@ -32,7 +24,7 @@ module Packwerk
       @absolute_files = absolute_files
     end
 
-    sig { returns(Result) }
+
     def detect_stale_violations
       offense_collection = find_offenses
 
@@ -42,7 +34,7 @@ module Packwerk
       Result.new(message: message, status: result_status)
     end
 
-    sig { returns(Result) }
+
     def update_deprecations
       offense_collection = find_offenses
       offense_collection.dump_deprecated_references_files
@@ -55,7 +47,7 @@ module Packwerk
       Result.new(message: message, status: offense_collection.errors.empty?)
     end
 
-    sig { returns(Result) }
+
     def check
       offense_collection = find_offenses(show_errors: true)
 
@@ -70,7 +62,7 @@ module Packwerk
 
     private
 
-    sig { params(show_errors: T::Boolean).returns(OffenseCollection) }
+
     def find_offenses(show_errors: false)
       offense_collection = OffenseCollection.new(@configuration.root_path)
       @progress_formatter.started(@absolute_files)
@@ -99,7 +91,7 @@ module Packwerk
       offense_collection
     end
 
-    sig { params(block: ProcessFileProc).returns(T::Array[Offense]) }
+
     def serial_find_offenses(&block)
       all_offenses = T.let([], T::Array[Offense])
       begin
@@ -114,7 +106,7 @@ module Packwerk
       all_offenses
     end
 
-    sig { params(failed: T::Boolean).void }
+
     def update_progress(failed: false)
       if failed
         @progress_formatter.mark_as_failed

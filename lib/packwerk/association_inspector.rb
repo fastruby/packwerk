@@ -4,7 +4,7 @@
 module Packwerk
   # Extracts the implicit constant reference from an active record association
   class AssociationInspector
-    extend T::Sig
+    
     include ConstantNameInspector
 
     CustomAssociations = T.type_alias { T.any(T::Array[Symbol], T::Set[Symbol]) }
@@ -19,17 +19,12 @@ module Packwerk
       CustomAssociations
     )
 
-    sig { params(inflector: T.class_of(ActiveSupport::Inflector), custom_associations: CustomAssociations).void }
+
     def initialize(inflector:, custom_associations: Set.new)
       @inflector = inflector
       @associations = T.let(RAILS_ASSOCIATIONS + custom_associations, CustomAssociations)
     end
 
-    sig do
-      override
-        .params(node: AST::Node, ancestors: T::Array[AST::Node])
-        .returns(T.nilable(String))
-    end
     def constant_name_from_node(node, ancestors:)
       return unless Node.method_call?(node)
       return unless association?(node)
@@ -47,13 +42,13 @@ module Packwerk
 
     private
 
-    sig { params(node: AST::Node).returns(T::Boolean) }
+
     def association?(node)
       method_name = Node.method_name(node)
       @associations.include?(method_name)
     end
 
-    sig { params(arguments: T::Array[AST::Node]).returns(T.nilable(AST::Node)) }
+
     def custom_class_name(arguments)
       association_options = arguments.detect { |n| Node.hash?(n) }
       return unless association_options
@@ -61,7 +56,7 @@ module Packwerk
       Node.value_from_hash(association_options, :class_name)
     end
 
-    sig { params(arguments: T::Array[AST::Node]).returns(T.any(T.nilable(Symbol), T.nilable(String))) }
+
     def association_name(arguments)
       return unless Node.symbol?(arguments[0])
 

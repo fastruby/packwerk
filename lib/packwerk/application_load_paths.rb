@@ -7,9 +7,9 @@ module Packwerk
   # Extracts the load paths from the analyzed application so that we can map constant names to paths.
   module ApplicationLoadPaths
     class << self
-      extend T::Sig
+      
 
-      sig { params(root: String, environment: String).returns(T::Array[String]) }
+
       def extract_relevant_paths(root, environment)
         require_application(root, environment)
         all_paths = extract_application_autoload_paths
@@ -18,7 +18,7 @@ module Packwerk
         relative_path_strings(relevant_paths)
       end
 
-      sig { returns(T::Array[String]) }
+
       def extract_application_autoload_paths
         railties = if Rails.application.railties.respond_to?(:to_a)
           Rails.application.railties.to_a
@@ -35,10 +35,6 @@ module Packwerk
           end
       end
 
-      sig do
-        params(all_paths: T::Array[String], bundle_path: Pathname, rails_root: Pathname)
-          .returns(T::Array[Pathname])
-      end
       def filter_relevant_paths(all_paths, bundle_path: Bundler.bundle_path, rails_root: Rails.root)
         bundle_path_match = bundle_path.join("**")
         rails_root_match = rails_root.join("**")
@@ -49,7 +45,7 @@ module Packwerk
           .reject { |path| path.fnmatch(bundle_path_match.to_s) } # reject paths from vendored gems
       end
 
-      sig { params(paths: T::Array[Pathname], rails_root: Pathname).returns(T::Array[String]) }
+
       def relative_path_strings(paths, rails_root: Rails.root)
         paths
           .map { |path| path.relative_path_from(Pathname.new(rails_root)).to_s }
@@ -58,7 +54,7 @@ module Packwerk
 
       private
 
-      sig { params(root: String, environment: String).void }
+
       def require_application(root, environment)
         environment_file = "#{root}/config/environment"
 
@@ -71,7 +67,7 @@ module Packwerk
         end
       end
 
-      sig { params(paths: T::Array[T.untyped]).void }
+
       def assert_load_paths_present(paths)
         if paths.empty?
           raise <<~EOS
