@@ -10,7 +10,6 @@ gem("rails", "~> 3.2.22")
 
 # Add polyfills for Rails 3.2 compatibility
 gem("backports", require: false)
-gem("ruby-next", require: false)
 gem("test-unit", "~> 3.0")
 
 # Development and test dependencies
