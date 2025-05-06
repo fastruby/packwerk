@@ -63,25 +63,25 @@ module Packwerk
       begin
         constant = @resolver.resolve(const_name, current_namespace_path: current_namespace_path)
       rescue ConstantResolver::Error => e
-        # Handle constant resolution errors according to shitlist configuration
-        if ENV["CONSTANT_DISCOVERY_SHITLIST_FILE"].nil?
-          # No shitlist file configured, raise the error
+        # Handle constant resolution errors according to todo configuration
+        if ENV["PACKWERK_CONSTANT_DISCOVERY_TODO_FILE"].nil?
+          # No todo file configured, raise the error
           raise(ConstantResolver::Error, e.message)
-        else # shitlist file is configured
-          file_path = ENV.fetch("CONSTANT_DISCOVERY_SHITLIST_FILE")
+        else # The todo file is configured
+          file_path = ENV.fetch("PACKWERK_CONSTANT_DISCOVERY_TODO_FILE")
           
           if File.exist?(file_path)
-            # Check if the error is already in the shitlist
+            # Check if the error is already in the todo
             current_content = File.read(file_path)
             if current_content.include?(e.message)
-              # Error already in shitlist, continue silently
+              # Error already in todo, continue silently
             else
-              # Error not in shitlist, raise with instructions
-              raise(ConstantResolver::Error, "#{e.message}\n\nThis error is not in the shitlist file '#{file_path}'. " \
-                "Either remove the shitlist file to regenerate it, or manually add this error to the file.")
+              # Error not in todo, raise with instructions
+              raise(ConstantResolver::Error, "#{e.message}\n\nThis error is not in the todo file '#{file_path}'. " \
+                "Either remove the todo file to regenerate it, or manually add this error to the file.")
             end
           else
-            # Shitlist file doesn't exist but env var is set, create and append error
+            # The todo file doesn't exist but env var is set, create and append error
             File.write(file_path, e.message)
           end
         end
