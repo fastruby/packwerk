@@ -1,4 +1,4 @@
-# typed: strict
+
 # frozen_string_literal: true
 
 # This file centralizes all backports and polyfills needed for 

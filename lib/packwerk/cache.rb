@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: strict
+
 require "backports/2.4.0/regexp/match"
 require "json"
 require "digest"
