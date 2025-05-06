@@ -1,5 +1,6 @@
-rm tmp/warnings.log
-rm tmp/output.log
+rm -rf tmp/warnings.log
+rm -rf tmp/output.log
+mkdir -p tmp
 
 # don't run tests in test/support and fixtures
 for file in test/**/*_test.rb; do

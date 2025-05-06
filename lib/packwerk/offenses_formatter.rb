@@ -4,9 +4,7 @@
 module Packwerk
   module OffensesFormatter
     
-    extend T::Helpers
 
-    interface!
 
 
     def show_offenses(offenses)

@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "parser"
@@ -12,8 +11,6 @@ module Packwerk
     Location = Struct.new(:line, :column)
 
     class << self
-      
-
       def class_or_module_name(class_or_module_node)
         case type_of(class_or_module_node)
         when CLASS, MODULE
@@ -183,7 +180,6 @@ module Packwerk
         class_node.children[1]
       end
 
-
       def parent_module_name(ancestors:)
         definitions = ancestors
           .select { |n| [CLASS, MODULE, CONSTANT_ASSIGNMENT, BLOCK].include?(type_of(n)) }
@@ -249,15 +245,15 @@ module Packwerk
         raise TypeError unless hash?(hash_node)
 
         # (hash (pair (int 1) (int 2)) (pair (int 3) (int 4)))
-        #   "{1 => 2, 3 => 4}"
-        hash_node.children.select { |n| type_of(n) == HASH_PAIR }
+        #   "{ 1 => 2, 3 => 4 }"
+        hash_node.children
       end
 
       def method_call_node(block_node)
         raise TypeError unless type_of(block_node) == BLOCK
 
-        # (block (send (lvar :foo) :bar) (args) (int 42))
-        #   "foo.bar do 42 end"
+        # (block (send (const nil :Class) :new) (args) (nil))
+        #   "Class.new do end"
         block_node.children[0]
       end
 
@@ -265,16 +261,13 @@ module Packwerk
         # "Class.new"
         # "Module.new"
         method_call?(node) &&
-          receiver(node) &&
-          constant?(receiver(node)) &&
-          ["Class", "Module"].include?(constant_name(receiver(node))) &&
-          method_name(node) == :new
+          ["Class", "Module"].include?(constant_name(node.children[0])) &&
+          node.children[1] == :new
       end
 
       def name_from_block_definition(node)
         if method_name(method_call_node(node)) == :class_eval
-          receiver = receiver(node)
-          constant_name(receiver) if receiver && constant?(receiver)
+          constant_name(receiver(node))
         end
       end
 
@@ -290,11 +283,13 @@ module Packwerk
       def receiver(method_call_or_block_node)
         case type_of(method_call_or_block_node)
         when METHOD_CALL
+          # (send (lvar :foo) :bar (int 1))
+          #   "foo.bar(1)"
           method_call_or_block_node.children[0]
         when BLOCK
+          # (block (send (const nil :Class) :new) (args) (nil))
+          #   "Class.new do end"
           receiver(method_call_node(method_call_or_block_node))
-        else
-          raise TypeError
         end
       end
     end

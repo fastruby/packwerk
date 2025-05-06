@@ -1,11 +1,14 @@
-
 # frozen_string_literal: true
 
 module Packwerk
-  class ViolationType < T::Enum
-    enums do
-      Privacy = new
-      Dependency = new
+  class ViolationType
+    attr_reader :name
+
+    def initialize(name)
+      @name = name
     end
+
+    Privacy = new("Privacy")
+    Dependency = new("Dependency")
   end
 end

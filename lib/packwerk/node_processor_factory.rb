@@ -1,14 +1,14 @@
-
 # frozen_string_literal: true
 
 module Packwerk
-  class NodeProcessorFactory < T::Struct
-    
+  class NodeProcessorFactory
+    attr_reader :root_path, :context_provider, :constant_name_inspectors
 
-    const :root_path, String
-    const :context_provider, Packwerk::ConstantDiscovery
-    const :constant_name_inspectors, T::Array[ConstantNameInspector]
-
+    def initialize(root_path:, context_provider:, constant_name_inspectors:)
+      @root_path = root_path
+      @context_provider = context_provider
+      @constant_name_inspectors = constant_name_inspectors
+    end
 
     def for(absolute_file:, node:)
       ::Packwerk::NodeProcessor.new(
@@ -18,7 +18,6 @@ module Packwerk
     end
 
     private
-
 
     def reference_extractor(node:)
       ::Packwerk::ReferenceExtractor.new(

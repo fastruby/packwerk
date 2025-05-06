@@ -15,7 +15,7 @@ module Packwerk
       @relative_file_paths = relative_file_paths
       @configuration = configuration
       @ignore_nested_packages = ignore_nested_packages
-      @custom_files = T.let(nil, T.nilable(T::Array[String]))
+      @custom_files = nil
     end
 
 

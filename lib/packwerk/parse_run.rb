@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "benchmark"
@@ -6,12 +5,6 @@ require "parallel"
 
 module Packwerk
   class ParseRun
-    
-
-    ProcessFileProc = T.type_alias do
-      T.proc.params(path: String).returns(T::Array[Offense])
-    end
-
     def initialize(
       absolute_files:,
       configuration:,
@@ -24,7 +17,6 @@ module Packwerk
       @absolute_files = absolute_files
     end
 
-
     def detect_stale_violations
       offense_collection = find_offenses
 
@@ -33,7 +25,6 @@ module Packwerk
 
       Result.new(message: message, status: result_status)
     end
-
 
     def update_deprecations
       offense_collection = find_offenses
@@ -46,7 +37,6 @@ module Packwerk
 
       Result.new(message: message, status: offense_collection.errors.empty?)
     end
-
 
     def check
       offense_collection = find_offenses(show_errors: true)
@@ -62,20 +52,19 @@ module Packwerk
 
     private
 
-
     def find_offenses(show_errors: false)
       offense_collection = OffenseCollection.new(@configuration.root_path)
       @progress_formatter.started(@absolute_files)
 
       run_context = Packwerk::RunContext.from_configuration(@configuration)
-      all_offenses = T.let([], T::Array[Offense])
+      all_offenses = []
 
-      process_file = T.let(-> (absolute_file) do
+      process_file = -> (absolute_file) do
         run_context.process_file(absolute_file: absolute_file).tap do |offenses|
           failed = show_errors && offenses.any? { |offense| !offense_collection.listed?(offense) }
           update_progress(failed: failed)
         end
-      end, ProcessFileProc)
+      end
 
       execution_time = Benchmark.realtime do
         all_offenses = if @configuration.parallel?
@@ -91,9 +80,8 @@ module Packwerk
       offense_collection
     end
 
-
     def serial_find_offenses(&block)
-      all_offenses = T.let([], T::Array[Offense])
+      all_offenses = []
       begin
         @absolute_files.each do |absolute_file|
           offenses = block.call(absolute_file)
@@ -105,7 +93,6 @@ module Packwerk
       end
       all_offenses
     end
-
 
     def update_progress(failed: false)
       if failed

@@ -1,16 +1,9 @@
-
 # frozen_string_literal: true
 
 module Packwerk
   # An offense related to a {Packwerk::Reference}.
   class ReferenceOffense < Offense
-    
-    extend T::Helpers
-
-
     attr_reader :reference
-
-
     attr_reader :violation_type
 
     def initialize(reference:, violation_type:, location: nil)
@@ -20,7 +13,6 @@ module Packwerk
     end
 
     private
-
 
     def build_message(reference, violation_type)
       violation_message = case violation_type

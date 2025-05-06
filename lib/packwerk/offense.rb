@@ -6,7 +6,6 @@ require "parser/source/map"
 module Packwerk
   class Offense
     
-    extend T::Helpers
 
 
     attr_reader :location

@@ -6,9 +6,9 @@ module Packwerk
 
     def initialize(root_path, deprecated_references = {})
       @root_path = root_path
-      @deprecated_references = T.let(deprecated_references, T::Hash[Packwerk::Package, Packwerk::DeprecatedReferences])
-      @new_violations = T.let([], T::Array[Packwerk::ReferenceOffense])
-      @errors = T.let([], T::Array[Packwerk::Offense])
+      @deprecated_references = deprecated_references
+      @new_violations = []
+      @errors = []
     end
 
 

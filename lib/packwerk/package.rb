@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 module Packwerk
@@ -6,45 +5,36 @@ module Packwerk
   # The package contains all constants defined in files in this folder and all subfolders that are not packages
   # themselves.
   class Package
-    
     include Comparable
 
     ROOT_PACKAGE_NAME = "."
 
-
     attr_reader :name
-
     attr_reader :dependencies
-
 
     def initialize(name:, config:)
       @name = name
-      @config = T.let(config || {}, T::Hash[T.untyped, T.untyped])
-      @dependencies = T.let(Array(@config["dependencies"]).freeze, T::Array[String])
-      @public_path = T.let(nil, T.nilable(String))
+      @config = config || {}
+      @dependencies = Array(@config["dependencies"]).freeze
+      @public_path = nil
     end
-
 
     def enforce_privacy
       @config["enforce_privacy"]
     end
 
-
     def enforce_dependencies?
       @config["enforce_dependencies"] == true
     end
-
 
     def dependency?(package)
       @dependencies.include?(package.name)
     end
 
-
     def package_path?(path)
       return true if root?
       path.start_with?(@name)
     end
-
 
     def public_path
       @public_path ||= begin
@@ -58,11 +48,9 @@ module Packwerk
       end
     end
 
-
     def public_path?(path)
       path.start_with?(public_path)
     end
-
 
     def user_defined_public_path
       return unless @config["public_path"]
@@ -71,27 +59,22 @@ module Packwerk
       @config["public_path"] + "/"
     end
 
-
     def <=>(other)
       return nil unless other.is_a?(self.class)
       name <=> other.name
     end
 
-
     def eql?(other)
       self == other
     end
-
 
     def hash
       name.hash
     end
 
-
     def to_s
       name
     end
-
 
     def root?
       @name == ROOT_PACKAGE_NAME

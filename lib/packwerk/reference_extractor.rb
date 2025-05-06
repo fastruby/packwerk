@@ -15,7 +15,7 @@ module Packwerk
     end
 
     def reference_from_node(node, ancestors:, absolute_file:)
-      constant_name = T.let(nil, T.nilable(String))
+      constant_name = nil
 
       @constant_name_inspectors.each do |inspector|
         constant_name = inspector.constant_name_from_node(node, ancestors: ancestors)
@@ -34,7 +34,7 @@ module Packwerk
     end
 
     def self.get_fully_qualified_references_and_offenses_from(unresolved_references_and_offenses, context_provider)
-      fully_qualified_references_and_offenses = T.let([], T::Array[T.any(Reference, Offense)])
+      fully_qualified_references_and_offenses = []
 
       unresolved_references_and_offenses.each do |unresolved_references_or_offense|
         if unresolved_references_or_offense.is_a?(Offense)

@@ -6,14 +6,13 @@ require "digest"
 
 module Packwerk
   class Cache
-    
+    class CacheContents
+      attr_reader :file_contents_digest, :unresolved_references
 
-    class CacheContents < T::Struct
-      
-
-      const :file_contents_digest, String
-      const :unresolved_references, T::Array[UnresolvedReference]
-
+      def initialize(file_contents_digest:, unresolved_references:)
+        @file_contents_digest = file_contents_digest
+        @unresolved_references = unresolved_references
+      end
 
       def serialize
         JSON.generate({
@@ -31,7 +30,6 @@ module Packwerk
           end
         })
       end
-
 
       def self.deserialize(serialized_cache_contents)
         cache_contents_json = JSON.parse(serialized_cache_contents)
@@ -51,18 +49,10 @@ module Packwerk
       end
     end
 
-    CACHE_SHAPE = T.type_alias do
-      T::Hash[
-        String,
-        CacheContents
-      ]
-    end
-
-
     def initialize(enable_cache:, cache_directory:, config_path:)
       @enable_cache = enable_cache
-      @cache = T.let({}, CACHE_SHAPE)
-      @files_by_digest = T.let({}, T::Hash[String, String])
+      @cache = {}
+      @files_by_digest = {}
       @config_path = config_path
       @cache_directory = cache_directory
 
@@ -72,7 +62,6 @@ module Packwerk
         bust_cache_if_inflections_have_changed!
       end
     end
-
 
     def bust_cache!
       FileUtils.rm_rf(@cache_directory)
@@ -84,8 +73,7 @@ module Packwerk
       cache_location = @cache_directory.join(digest_for_string(file_path))
 
       cache_contents = if cache_location.exist?
-        T.let(CacheContents.deserialize(cache_location.read),
-          CacheContents)
+        CacheContents.deserialize(cache_location.read)
       end
 
       file_contents_digest = digest_for_file(file_path)
@@ -109,11 +97,9 @@ module Packwerk
       end
     end
 
-
     def digest_for_file(file)
       digest_for_string(File.read(file))
     end
-
 
     def digest_for_string(str)
       # MD5 appears to be the fastest
@@ -121,17 +107,14 @@ module Packwerk
       Digest::MD5.hexdigest(str)
     end
 
-
     def bust_cache_if_packwerk_yml_has_changed!
       return nil if @config_path.nil?
       bust_cache_if_contents_have_changed(File.read(@config_path), :packwerk_yml)
     end
 
-
     def bust_cache_if_inflections_have_changed!
       bust_cache_if_contents_have_changed(YAML.dump(ActiveSupport::Inflector.inflections), :inflections)
     end
-
 
     def bust_cache_if_contents_have_changed(contents, contents_key)
       current_digest = digest_for_string(contents)
@@ -156,16 +139,12 @@ module Packwerk
       end
     end
 
-
     def create_cache_directory!
       FileUtils.mkdir_p(@cache_directory)
     end
   end
 
   class Debug
-    
-
-
     def self.out(out)
       if ENV["DEBUG_PACKWERK_CACHE"]
         puts(out)

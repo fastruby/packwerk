@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "ast/node"
@@ -19,15 +18,15 @@ module Packwerk
     def initialize(node_processor_factory:, cache:, parser_factory: nil)
       @node_processor_factory = node_processor_factory
       @cache = cache
-      @parser_factory = T.let(parser_factory || Packwerk::Parsers::Factory.instance, Parsers::Factory)
+      @parser_factory = parser_factory || Packwerk::Parsers::Factory.instance
     end
 
     def call(absolute_file)
       parser = parser_for(absolute_file)
-      return [UnknownFileTypeResult.new(file: absolute_file)] if T.unsafe(parser).nil?
+      return [UnknownFileTypeResult.new(file: absolute_file)] if parser.nil?
 
       @cache.with_cache(absolute_file) do
-        node = parse_into_ast(absolute_file, T.must(parser))
+        node = parse_into_ast(absolute_file, parser)
         return [] unless node
 
         references_from_ast(node, absolute_file)

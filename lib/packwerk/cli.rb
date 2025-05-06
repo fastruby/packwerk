@@ -20,9 +20,9 @@ module Packwerk
       @err_out = err_out
       @environment = environment
       @style = style
-      @configuration = T.let(configuration || Configuration.from_path, Configuration)
-      @progress_formatter = T.let(Formatters::ProgressFormatter.new(@out, style: style), Formatters::ProgressFormatter)
-      @offenses_formatter = T.let(offenses_formatter || Formatters::OffensesFormatter.new(style: @style),
+      @configuration = configuration || Configuration.from_path
+      @progress_formatter = Formatters::ProgressFormatter.new(@out
+      @offenses_formatter = offenses_formatter || Formatters::OffensesFormatter.new(style: @style,
         OffensesFormatter)
     end
 
@@ -157,7 +157,7 @@ module Packwerk
 
 
     def parse_run(params)
-      relative_file_paths = T.let([], T::Array[String])
+      relative_file_paths = []
       ignore_nested_packages = nil
 
       if params.any? { |p| p.include?("--packages") }

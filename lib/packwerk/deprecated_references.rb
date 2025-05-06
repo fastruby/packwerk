@@ -1,22 +1,14 @@
-
 # frozen_string_literal: true
 
 require "yaml"
 
 module Packwerk
   class DeprecatedReferences
-    
-
-    ENTRIES_TYPE = T.type_alias do
-      T::Hash[String, T.untyped]
-    end
-
-
     def initialize(package, filepath)
       @package = package
       @filepath = filepath
-      @new_entries = T.let({}, ENTRIES_TYPE)
-      @deprecated_references = T.let(nil, T.nilable(ENTRIES_TYPE))
+      @new_entries = {}
+      @deprecated_references = nil
     end
 
     def listed?(reference, violation_type:)
@@ -28,7 +20,6 @@ module Packwerk
 
       violated_constants_found.fetch("violations", []).include?(violation_type.serialize)
     end
-
 
     def add_entries(reference, violation_type)
       package_violations = @new_entries.fetch(reference.constant.package.name, {})
@@ -43,7 +34,6 @@ module Packwerk
       @new_entries[reference.constant.package.name] = package_violations
       listed?(reference, violation_type: violation_type)
     end
-
 
     def stale_violations?
       prepare_entries_for_dump
@@ -61,7 +51,6 @@ module Packwerk
         end
       end
     end
-
 
     def dump
       if @new_entries.empty?
@@ -85,7 +74,6 @@ module Packwerk
 
     private
 
-
     def prepare_entries_for_dump
       @new_entries.each do |package_name, package_violations|
         package_violations.each do |_, entries_for_file|
@@ -98,7 +86,6 @@ module Packwerk
       @new_entries = @new_entries.sort.to_h
     end
 
-
     def deprecated_references
       @deprecated_references ||= if File.exist?(@filepath)
         load_yaml(@filepath)
@@ -106,7 +93,6 @@ module Packwerk
         {}
       end
     end
-
 
     def load_yaml(filepath)
       YAML.load_file(filepath) || {}

@@ -1,28 +1,20 @@
-
 # frozen_string_literal: true
 
 module Packwerk
   # Extracts the implicit constant reference from an active record association
   class AssociationInspector
-    
     include ConstantNameInspector
 
-    CustomAssociations = T.type_alias { T.any(T::Array[Symbol], T::Set[Symbol]) }
-
-    RAILS_ASSOCIATIONS = T.let(
-      %i(
-        belongs_to
-        has_many
-        has_one
-        has_and_belongs_to_many
-      ).to_set,
-      CustomAssociations
-    )
-
+    RAILS_ASSOCIATIONS = %i(
+      belongs_to
+      has_many
+      has_one
+      has_and_belongs_to_many
+    ).to_set
 
     def initialize(inflector:, custom_associations: Set.new)
       @inflector = inflector
-      @associations = T.let(RAILS_ASSOCIATIONS + custom_associations, CustomAssociations)
+      @associations = RAILS_ASSOCIATIONS + custom_associations
     end
 
     def constant_name_from_node(node, ancestors:)
@@ -42,12 +34,10 @@ module Packwerk
 
     private
 
-
     def association?(node)
       method_name = Node.method_name(node)
       @associations.include?(method_name)
     end
-
 
     def custom_class_name(arguments)
       association_options = arguments.detect { |n| Node.hash?(n) }
@@ -55,7 +45,6 @@ module Packwerk
 
       Node.value_from_hash(association_options, :class_name)
     end
-
 
     def association_name(arguments)
       return unless Node.symbol?(arguments[0])

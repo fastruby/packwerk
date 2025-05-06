@@ -1,26 +1,15 @@
-
 # frozen_string_literal: true
 
 require "pathname"
 
 module Packwerk
-  # disabling sorbet in this file as it's breaking some tests
-  # PathSpec = T.type_alias { T.any(String, T::Array[String]) }
-
   # A set of {Packwerk::Package}s as well as methods to parse packages from the filesystem.
   class PackageSet
-    # 
-    # extend T::Generic
     include Enumerable
-
-    # Elem = type_member(fixed: Package)
 
     PACKAGE_CONFIG_FILENAME = "package.yml"
 
     class << self
-      # 
-
-      
       def load_all_from(root_path, package_pathspec: nil)
         package_paths = package_paths(root_path, package_pathspec || "**")
 
@@ -50,13 +39,11 @@ module Packwerk
 
       private
 
-      
       def create_root_package_if_none_in(packages)
         return if packages.any?(&:root?)
         packages << Package.new(name: Package::ROOT_PACKAGE_NAME, config: nil)
       end
 
-      
       def exclude_path?(globs, path)
         globs.any? do |glob|
           path.realpath.fnmatch(glob, File::FNM_EXTGLOB)
@@ -64,32 +51,27 @@ module Packwerk
       end
     end
 
-    
     attr_reader :packages
 
-    
     def initialize(packages)
       # We want to match more specific paths first
       sorted_packages = packages.sort_by { |package| -package.name.length }
       packages = sorted_packages.each_with_object({}) { |package, hash| hash[package.name] = package }
-      @packages = T.let(packages, T::Hash[String, Package])
-      @package_from_path = T.let({}, T::Hash[String, T.nilable(Package)])
+      @packages = packages
+      @package_from_path = {}
     end
 
-    
     def each(&blk)
       packages.values.each(&blk)
     end
 
-    
     def fetch(name)
       packages[name]
     end
 
-    
     def package_from_path(file_path)
       path_string = file_path.to_s
-      @package_from_path[path_string] ||= T.must(packages.values.find { |package| package.package_path?(path_string) })
+      @package_from_path[path_string] ||= packages.values.find { |package| package.package_path?(path_string) }
     end
   end
 end

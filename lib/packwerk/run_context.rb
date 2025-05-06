@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "backports/2.5.0/string/delete_prefix"
@@ -8,16 +7,12 @@ require "backports/2.4.0/hash/transform_values"
 module Packwerk
   # Holds the context of a Packwerk run across multiple files.
   class RunContext
-    
-
-    DEFAULT_CHECKERS = T.let([
+    DEFAULT_CHECKERS = [
       ::Packwerk::ReferenceChecking::Checkers::DependencyChecker.new,
       ::Packwerk::ReferenceChecking::Checkers::PrivacyChecker.new,
-    ], T::Array[ReferenceChecking::Checkers::Checker])
+    ]
 
     class << self
-      
-
       def from_configuration(configuration)
         inflector = ActiveSupport::Inflector
 
@@ -55,14 +50,11 @@ module Packwerk
       @cache_directory = cache_directory
       @config_path = config_path
 
-      @file_processor = T.let(nil, T.nilable(FileProcessor))
-      @context_provider = T.let(nil, T.nilable(ConstantDiscovery))
+      @file_processor = nil
+      @context_provider = nil
       # We need to initialize this before we fork the process, see https://github.com/Shopify/packwerk/issues/182
-      @cache = T.let(
-        Cache.new(enable_cache: @cache_enabled, cache_directory: @cache_directory, config_path: @config_path), Cache
-      )
+      @cache = Cache.new(enable_cache: @cache_enabled, cache_directory: @cache_directory, config_path: @config_path)
     end
-
 
     def process_file(absolute_file:)
       unresolved_references_and_offenses = file_processor.call(absolute_file)
@@ -76,11 +68,9 @@ module Packwerk
 
     private
 
-
     def file_processor
       @file_processor ||= FileProcessor.new(node_processor_factory: node_processor_factory, cache: @cache)
     end
-
 
     def node_processor_factory
       NodeProcessorFactory.new(
@@ -90,14 +80,12 @@ module Packwerk
       )
     end
 
-
     def context_provider
       @context_provider ||= ::Packwerk::ConstantDiscovery.new(
         constant_resolver: resolver,
         packages: package_set
       )
     end
-
 
     def resolver
       ConstantResolver.new(
@@ -107,11 +95,9 @@ module Packwerk
       )
     end
 
-
     def package_set
       ::Packwerk::PackageSet.load_all_from(@root_path, package_pathspec: @package_paths)
     end
-
 
     def constant_name_inspectors
       [

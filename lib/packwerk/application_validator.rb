@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "constant_resolver"
@@ -15,16 +14,16 @@ module Packwerk
       @config_file_path = config_file_path
       @configuration = configuration
       @environment = environment
-      @package_set = T.let(PackageSet.load_all_from(@configuration.root_path, package_pathspec: package_glob),
-        PackageSet)
+      @package_set = PackageSet.load_all_from(@configuration.root_path, package_pathspec: package_glob)
     end
 
-    class Result < T::Struct
-      
+    class Result
+      attr_reader :ok, :error_value
 
-      const :ok, T::Boolean
-      const :error_value, T.nilable(String)
-
+      def initialize(ok:, error_value: nil)
+        @ok = ok
+        @error_value = error_value
+      end
 
       def ok?
         ok
@@ -55,7 +54,7 @@ module Packwerk
         load_paths: @configuration.load_paths
       )
 
-      results = T.let([], T::Array[Result])
+      results = []
 
       privacy_settings.each do |config_file_path, setting|
         next unless setting.is_a?(Array)
@@ -145,7 +144,7 @@ module Packwerk
       edges = @package_set.flat_map do |package|
         package.dependencies.map { |dependency| [package, @package_set.fetch(dependency)] }
       end
-      dependency_graph = Graph.new(*T.unsafe(edges))
+      dependency_graph = Graph.new(*edges)
 
       cycle_strings = build_cycle_strings(dependency_graph.cycles)
 
