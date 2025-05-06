@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "test_helper"
@@ -198,7 +197,7 @@ module Packwerk
 
     test "#dump deletes the deprecated references if there are no entries" do
       file = Tempfile.new("empty_deprecated_references.yml")
-      deprecated_references = DeprecatedReferences.new(destination_package, T.must(file.path))
+      deprecated_references = DeprecatedReferences.new(destination_package, file.path)
       deprecated_references.dump
 
       refute File.exist?(file.path)
