@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require "test_helper"
@@ -41,7 +40,7 @@ module Packwerk
       assert_equal("app/public/", package.public_path)
     end
 
-    test "#public_path returns expected path when using a user defined public path" do
+    test "#public_path returns expected path when using a user defined public path in root package" do
       package = Package.new(name: ".", config: { "public_path" => "my/path/" })
 
       assert_equal("my/path/", package.public_path)
