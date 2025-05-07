@@ -15,23 +15,20 @@ module Packwerk
 
       if parent && constant_in_module_or_class_definition?(node, parent: parent)
         fully_qualify_constant(ancestors)
+      elsif dynamically_namespaced?(node)
+        nil
       else
-        # Check for dynamically namespaced constants
-        if is_dynamically_namespaced?(node)
+        begin
+          Node.constant_name(node)
+        rescue Node::TypeError
           nil
-        else
-          begin
-            Node.constant_name(node)
-          rescue Node::TypeError
-            nil
-          end
         end
       end
     end
 
     private
 
-    def is_dynamically_namespaced?(node)
+    def dynamically_namespaced?(node)
       # Parse the node to string and check if it contains "self.class::" or other dynamic patterns
       node_string = node.inspect
       node_string.include?("self") || node_string.include?("send") || node_string.include?("class")

@@ -113,7 +113,7 @@ module Packwerk
 
         # Verify the basic structure of the AST
         assert_equal(:program, ast.type)
-        assert(ast.children.size > 0)
+        assert(ast.children.size.positive?)
 
         # Extract code and verify a few expected Ruby snippets
         code_parts = extract_code_from_ast(ast)

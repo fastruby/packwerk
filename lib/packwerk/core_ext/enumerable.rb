@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # lib/packwerk/core_ext/enumerable.rb
 
 module Packwerk
