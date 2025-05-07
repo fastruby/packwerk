@@ -128,8 +128,11 @@ module Packwerk
       begin
         resolver.file_map
         Result.new(ok: true)
-      rescue => e
-        Result.new(ok: false, error_value: e.message)
+      rescue ConstantResolver::Error => constant_resolver_error
+        AmbiguousConstantsHandler.call(constant_resolver_error)
+        Result.new(ok: true)
+      rescue => any_exception
+        Result.new(ok: false, error_value: any_exception.message)
       end
     end
 

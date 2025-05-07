@@ -14,6 +14,7 @@ require "active_support/core_ext/string"
 module Packwerk
   extend ActiveSupport::Autoload
 
+  autoload :AmbiguousConstantsHandler
   autoload :ApplicationLoadPaths
   autoload :ApplicationValidator
   autoload :AssociationInspector
