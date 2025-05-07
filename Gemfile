@@ -19,12 +19,12 @@ group :development, :test do
   gem("mocha", "< 2", require: false)
   gem("minitest-focus")
   gem("m")
-  
+
   # Lock rake to a compatible version
   gem("rake", "< 13.0")
-  
+
   # Removing rubocop for initial compatibility testing
-  # gem("rubocop", "0.93.1", require: false)
-  # gem("rubocop-performance", "1.8.1", require: false)
-  # gem("rubocop-shopify", "1.0.5", require: false)
+  gem("rubocop", require: false)
+  gem("rubocop-performance", require: false)
+  gem("rubocop-shopify", require: false)
 end

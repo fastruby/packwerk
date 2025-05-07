@@ -8,8 +8,6 @@ module Packwerk
   # Checks the structure of the application and its packwerk configuration to make sure we can run a check and deliver
   # correct results.
   class ApplicationValidator
-    
-
     def initialize(config_file_path:, configuration:, environment:)
       @config_file_path = config_file_path
       @configuration = configuration
@@ -30,7 +28,6 @@ module Packwerk
       end
     end
 
-
     def check_all
       results = [
         check_package_manifests_for_privacy,
@@ -44,7 +41,6 @@ module Packwerk
 
       merge_results(results)
     end
-
 
     def check_package_manifests_for_privacy
       privacy_settings = package_manifests_settings_for("enforce_privacy")
@@ -75,7 +71,6 @@ module Packwerk
 
       merge_results(results, separator: "\n---\n")
     end
-
 
     def check_package_manifest_syntax
       errors = []
@@ -124,7 +119,6 @@ module Packwerk
       end
     end
 
-
     def check_application_structure
       resolver = ConstantResolver.new(
         root_path: @configuration.root_path.to_s,
@@ -138,7 +132,6 @@ module Packwerk
         Result.new(ok: false, error_value: e.message)
       end
     end
-
 
     def check_acyclic_graph
       edges = @package_set.flat_map do |package|
@@ -162,7 +155,6 @@ module Packwerk
       end
     end
 
-
     def check_package_manifest_paths
       all_package_manifests = package_manifests("**/")
       package_paths_package_manifests = package_manifests(package_glob)
@@ -182,7 +174,6 @@ module Packwerk
         )
       end
     end
-
 
     def check_valid_package_dependencies
       packages_dependencies = package_manifests_settings_for("dependencies")
@@ -219,7 +210,6 @@ module Packwerk
       end
     end
 
-
     def check_root_package_exists
       root_package_path = File.join(@configuration.root_path, "package.yml")
       all_packages_manifests = package_manifests(package_glob)
@@ -250,41 +240,34 @@ module Packwerk
       cycles.map do |cycle|
         cycle_strings = cycle.map(&:to_s)
         cycle_strings << cycle.first.to_s
-        "\t- #{cycle_strings.join(" → ")}"
+        "\t- #{cycle_strings.join(" \u2192 ")}"
       end
     end
-
 
     def package_manifests_settings_for(setting)
       package_manifests.map { |f| [f, (YAML.load_file(File.join(f)) || {})[setting]] }
     end
 
-
     def format_yaml_strings(list)
       list.sort.map { |p| "- \"#{p}\"" }.join("\n")
     end
 
-
     def package_glob
       @configuration.package_paths || "**"
     end
-
 
     def package_manifests(glob_pattern = package_glob)
       PackageSet.package_paths(@configuration.root_path, glob_pattern, @configuration.exclude)
         .map { |f| File.realpath(f) }
     end
 
-
     def relative_paths(paths)
       paths.map { |path| relative_path(path) }
     end
 
-
     def relative_path(path)
       Pathname.new(path).relative_path_from(Pathname.new(@configuration.root_path))
     end
-
 
     def invalid_package_path?(path)
       # Packages at the root can be implicitly specified as "."
@@ -293,7 +276,6 @@ module Packwerk
       package_path = File.join(@configuration.root_path, path, PackageSet::PACKAGE_CONFIG_FILENAME)
       !File.file?(package_path)
     end
-
 
     def assert_constants_can_be_loaded(constants, config_file_path)
       constants.map do |constant|
@@ -309,7 +291,6 @@ module Packwerk
       end
     end
 
-
     def private_constant_unresolvable(name, config_file_path)
       explicit_filepath = (name.start_with?("::") ? name[2..-1] : name).underscore + ".rb"
 
@@ -321,7 +302,6 @@ module Packwerk
         "private. Add a #{explicit_filepath} file to explicitly define the constant."
       )
     end
-
 
     def check_private_constant_location(name, location, config_file_path)
       declared_package = @package_set.package_from_path(relative_path(config_file_path))

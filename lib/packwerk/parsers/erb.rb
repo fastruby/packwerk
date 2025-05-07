@@ -14,20 +14,17 @@ module Packwerk
     # ERB parser for Packwerk
     # Handles parsing of ERB templates to extract Ruby code
     class Erb
-      
       include ParserInterface
 
       # Checks whether the better_html gem is available
       # When not available, a simpler mock implementation will be used
       # @return [Boolean] true if better_html is available
       def self.available?
-        begin
-          require "better_html"
-          require "better_html/parser"
-          true
-        rescue LoadError
-          false
-        end
+        require "better_html"
+        require "better_html/parser"
+        true
+      rescue LoadError
+        false
       end
 
       # Mock implementation of an ERB parser when better_html is not available
@@ -51,18 +48,18 @@ module Packwerk
           # Create a mock AST that extracts Ruby code from ERB tags
           content = @buffer.source
           ruby_code = extract_ruby_code(content)
-          
+
           # Create a simple AST structure that Packwerk can analyze
           if ruby_code.empty?
             # Return an empty program node if no Ruby code was found
             return MockNode.new(:program, [])
           end
-          
+
           # Create code nodes for each extracted Ruby snippet
           code_nodes = ruby_code.map do |code|
             MockNode.new(:erb, [], code: code)
           end
-          
+
           # Return a program node with all the code nodes as children
           MockNode.new(:program, code_nodes)
         end
@@ -75,23 +72,23 @@ module Packwerk
           # Simple regex to extract Ruby code from ERB tags (<%= ... %> and <% ... %>)
           # This is a basic implementation and won't handle all edge cases
           ruby_parts = []
-          
+
           # Match <%=, <%, <%- tags and their closing %>
           # Known limitations:
           # - Doesn't handle nested ERB tags within strings properly
-          # - May incorrectly extract code from ERB-like syntax in HTML attributes 
+          # - May incorrectly extract code from ERB-like syntax in HTML attributes
           # - Won't properly handle ERB within JavaScript code
           erb_pattern = /<%=?-?(.*?)-?%>/m
-          
+
           # Extract all matches
           content.scan(erb_pattern) do |match|
             code = match[0].strip
             next if code.empty?
             # Skip ERB comments
-            next if code.start_with?('#')
+            next if code.start_with?("#")
             ruby_parts << code
           end
-          
+
           ruby_parts
         end
       end
@@ -115,7 +112,7 @@ module Packwerk
         def loc
           OpenStruct.new(expression: OpenStruct.new(source: @code))
         end
-        
+
         # For debugging purposes
         # @return [String] a string representation of the node
         def to_s
@@ -136,7 +133,7 @@ module Packwerk
 
       def call(io:, file_path: "<unknown>")
         buffer = Parser::Source::Buffer.new(file_path)
-        
+
         begin
           source = io.read
           # Ensure the source is valid UTF-8 to prevent encoding issues
@@ -145,7 +142,7 @@ module Packwerk
             source = source.encode(Encoding::UTF_8) unless source.valid_encoding?
           end
           buffer.source = source
-          
+
           ast = parse_buffer(buffer, file_path: file_path)
           to_ruby_ast(ast, file_path)
         rescue ArgumentError, EncodingError => e
@@ -192,7 +189,7 @@ module Packwerk
 
         # Combine the code pieces and wrap them in a class if necessary
         combined_code = combined_code_with_wrapper(code_pieces, file_path)
-        
+
         begin
           buffer = Parser::Source::Buffer.new(file_path)
           buffer.source = combined_code
@@ -213,7 +210,7 @@ module Packwerk
       # @return [String] the combined code with wrapper if needed
       def combined_code_with_wrapper(code_pieces, file_path)
         combined_code = code_pieces.join("\n")
-        
+
         # If the code doesn't define a class or module, wrap it in a dummy class
         # to provide a valid Ruby context for parsing
         needs_wrapper = !combined_code.match?(/\b(?:class|module)\b/)
@@ -221,7 +218,7 @@ module Packwerk
           class_name = "Packwerk#{Digest::MD5.hexdigest(file_path)}"
           combined_code = "class #{class_name}\n#{combined_code}\nend"
         end
-        
+
         combined_code
       end
 

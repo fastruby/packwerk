@@ -6,8 +6,6 @@ require "erb"
 module Packwerk
   module Generators
     class ConfigurationFile
-      
-
       CONFIGURATION_TEMPLATE_FILE_PATH = "templates/packwerk.yml.erb"
 
       class << self
@@ -16,12 +14,10 @@ module Packwerk
         end
       end
 
-
       def initialize(root:, out: $stdout)
         @root = root
         @out = out
       end
-
 
       def generate
         @out.puts("📦 Generating Packwerk configuration file...")

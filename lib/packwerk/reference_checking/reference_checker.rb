@@ -4,9 +4,6 @@
 module Packwerk
   module ReferenceChecking
     class ReferenceChecker
-      
-
-
       def initialize(checkers)
         @checkers = checkers
       end

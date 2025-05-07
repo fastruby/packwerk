@@ -6,9 +6,7 @@ module Packwerk
     module Checkers
       # Checks whether a given reference references a private constant of another package.
       class PrivacyChecker
-        
         include Checker
-
 
         def violation_type
           ViolationType::Privacy

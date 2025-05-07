@@ -4,8 +4,6 @@
 module Packwerk
   module Generators
     class RootPackage
-      
-
       class << self
         def generate(root:, out:)
           new(root: root, out: out).generate
@@ -16,7 +14,6 @@ module Packwerk
         @root = root
         @out = out
       end
-
 
       def generate
         if Dir.glob("#{@root}/package.yml").any?

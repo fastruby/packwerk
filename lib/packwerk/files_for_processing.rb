@@ -3,9 +3,7 @@
 
 module Packwerk
   class FilesForProcessing
-
     class << self
-
       def fetch(relative_file_paths:, configuration:, ignore_nested_packages: false)
         new(relative_file_paths, configuration, ignore_nested_packages).files
       end
@@ -17,7 +15,6 @@ module Packwerk
       @ignore_nested_packages = ignore_nested_packages
       @custom_files = nil
     end
-
 
     def files
       include_files = if custom_files.empty?
@@ -31,7 +28,6 @@ module Packwerk
 
     private
 
-
     def custom_files
       @custom_files ||= @relative_file_paths.flat_map do |relative_file_path|
         absolute_file_path = File.expand_path(relative_file_path, @configuration.root_path)
@@ -42,7 +38,6 @@ module Packwerk
         end
       end
     end
-
 
     def custom_included_files(absolute_file_path)
       # Note, assuming include globs are always relative paths
@@ -69,16 +64,13 @@ module Packwerk
       absolute_files
     end
 
-
     def configured_included_files
       absolute_files_for_globs(@configuration.include)
     end
 
-
     def configured_excluded_files
       absolute_files_for_globs(@configuration.exclude)
     end
-
 
     def absolute_files_for_globs(relative_globs)
       relative_globs

@@ -4,7 +4,6 @@
 module Packwerk
   # Processes a single node in an abstract syntax tree (AST) using the provided checkers.
   class NodeProcessor
-
     def initialize(reference_extractor:, absolute_file:)
       @reference_extractor = reference_extractor
       @absolute_file = absolute_file

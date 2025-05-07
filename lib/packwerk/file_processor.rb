@@ -4,12 +4,7 @@ require "ast/node"
 
 module Packwerk
   class FileProcessor
-    
-
     class UnknownFileTypeResult < Offense
-      
-
-
       def initialize(file:)
         super(file: file, message: "unknown file type")
       end
@@ -47,13 +42,11 @@ module Packwerk
       references
     end
 
-
     def parse_into_ast(absolute_file, parser)
       File.open(absolute_file, "r", nil, external_encoding: Encoding::UTF_8) do |file|
         parser.call(io: file, file_path: absolute_file)
       end
     end
-
 
     def parser_for(file_path)
       @parser_factory.for_path(file_path)

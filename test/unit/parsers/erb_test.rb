@@ -10,7 +10,7 @@ module Packwerk
   module Parsers
     class ErbTest < Minitest::Test
       # We no longer need to skip tests since we have a mock implementation
-      
+
       test "#call returns node with valid file" do
         node = File.open(fixture_path("valid.erb"), "r") do |fixture|
           Erb.new.call(io: fixture)
@@ -22,8 +22,8 @@ module Packwerk
       test "#call writes parse error to stdout" do
         # Skip this specific test if better_html is not available
         # because our mock doesn't raise the same errors
-        skip "This test requires better_html" unless Erb.available?
-        
+        skip("This test requires better_html") unless Erb.available?
+
         error_message = "stub error"
         err = Parser::SyntaxError.new(stub(message: error_message))
         parser = stub
@@ -47,8 +47,8 @@ module Packwerk
       test "#call writes encoding error to stdout" do
         # Skip this specific test if better_html is not available
         # because our mock doesn't raise the same errors
-        skip "This test requires better_html" unless Erb.available?
-        
+        skip("This test requires better_html") unless Erb.available?
+
         error_message = "stub error"
         err = EncodingError.new(error_message)
         parser = stub
@@ -71,8 +71,8 @@ module Packwerk
 
       test "#call with mock implementation returns a node" do
         # This test only runs when better_html is not available
-        skip "This test is for the mock implementation" if Erb.available?
-        
+        skip("This test is for the mock implementation") if Erb.available?
+
         node = File.open(fixture_path("valid.erb"), "r") do |fixture|
           Erb.new.call(io: fixture)
         end

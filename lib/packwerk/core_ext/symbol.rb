@@ -15,4 +15,4 @@ end
 # Only patch if the match? method doesn't already exist
 unless Symbol.method_defined?(:match?)
   Symbol.include(Packwerk::CoreExt::SymbolExtensions)
-end 
+end

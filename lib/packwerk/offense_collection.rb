@@ -3,7 +3,6 @@
 
 module Packwerk
   class OffenseCollection
-
     def initialize(root_path, deprecated_references = {})
       @root_path = root_path
       @deprecated_references = deprecated_references
@@ -11,9 +10,7 @@ module Packwerk
       @errors = []
     end
 
-
     attr_reader :new_violations
-
 
     attr_reader :errors
 
@@ -34,11 +31,9 @@ module Packwerk
       end
     end
 
-
     def stale_violations?
       @deprecated_references.values.any?(&:stale_violations?)
     end
-
 
     def dump_deprecated_references_files
       @deprecated_references.each do |_, deprecated_references_file|
@@ -46,13 +41,11 @@ module Packwerk
       end
     end
 
-
     def outstanding_offenses
       errors + new_violations
     end
 
     private
-
 
     def deprecated_references_for(package)
       @deprecated_references[package] ||= Packwerk::DeprecatedReferences.new(
@@ -60,7 +53,6 @@ module Packwerk
         deprecated_references_file_for(package),
       )
     end
-
 
     def deprecated_references_file_for(package)
       File.join(@root_path, package.name, "deprecated_references.yml")

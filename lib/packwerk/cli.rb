@@ -5,8 +5,6 @@ require "optparse"
 module Packwerk
   # A command-line interface to Packwerk.
   class Cli
-    
-
     def initialize(
       configuration: nil,
       out: $stdout,
@@ -24,12 +22,10 @@ module Packwerk
       @offenses_formatter = offenses_formatter || Formatters::OffensesFormatter.new(style: @style)
     end
 
-
     def run(args)
       success = execute_command(args)
       exit(success)
     end
-
 
     def execute_command(args)
       subcommand = args.shift
@@ -67,13 +63,11 @@ module Packwerk
 
     private
 
-
     def init
       @out.puts("📦 Initializing Packwerk...")
 
       generate_configs
     end
-
 
     def generate_configs
       configuration_file = Packwerk::Generators::ConfigurationFile.generate(
@@ -103,13 +97,11 @@ module Packwerk
       success
     end
 
-
     def output_result(result)
       @out.puts
       @out.puts(result.message)
       result.status
     end
-
 
     def fetch_files_to_process(relative_file_paths, ignore_nested_packages)
       absolute_files = FilesForProcessing.fetch(
@@ -122,7 +114,6 @@ module Packwerk
       absolute_files
     end
 
-
     def validate(_paths)
       @progress_formatter.started_validation do
         result = checker.check_all
@@ -133,7 +124,6 @@ module Packwerk
       end
     end
 
-
     def checker
       Packwerk::ApplicationValidator.new(
         config_file_path: @configuration.config_path,
@@ -141,7 +131,6 @@ module Packwerk
         environment: @environment,
       )
     end
-
 
     def list_validation_errors(result)
       @out.puts
@@ -152,7 +141,6 @@ module Packwerk
         @out.puts(result.error_value)
       end
     end
-
 
     def parse_run(params)
       relative_file_paths = []

@@ -5,11 +5,10 @@ require:
   - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 2.7
-  UseCache: true
-  CacheRootDirectory: tmp
+  TargetRubyVersion: 2.3.8
   Exclude:
     - 'test/fixtures/**/*'
+    - 'vendor/**/*'
 
 Lint/UnusedMethodArgument:
   AllowUnusedKeywordArguments: true
@@ -27,4 +26,7 @@ Style/MethodCallWithArgsParentheses:
   - Gemfile
 
 Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes

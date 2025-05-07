@@ -3,7 +3,6 @@
 module Packwerk
   # Extracts a constant name from an AST node of type :const
   class ConstNodeInspector
-    
     include ConstantNameInspector
 
     def constant_name_from_node(node, ancestors:)
@@ -42,12 +41,10 @@ module Packwerk
       !(parent && Node.constant?(parent))
     end
 
-
     def constant_in_module_or_class_definition?(node, parent:)
       parent_name = Node.module_name_from_definition(parent)
       parent_name && parent_name == Node.constant_name(node)
     end
-
 
     def fully_qualify_constant(ancestors)
       # We're defining a class with this name, in which case the constant is implicitly fully qualified by its

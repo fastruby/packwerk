@@ -4,19 +4,15 @@
 module Packwerk
   module OutputStyles
     class Plain
-      
       include OutputStyle
-
 
       def reset
         ""
       end
 
-
       def filename
         ""
       end
-
 
       def error
         ""

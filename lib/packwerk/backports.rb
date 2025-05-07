@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This file centralizes all backports and polyfills needed for 
+# This file centralizes all backports and polyfills needed for
 # Rails 3.2 and Ruby 2.3.8 compatibility.
 
 module Packwerk
@@ -18,16 +18,16 @@ module Packwerk
         # Ruby 2.4+ backports
         require "backports/2.4.0/hash/transform_values"
         require "backports/2.5.0/hash/transform_keys"
-        
+
         # Ruby 2.5+ backports
         require "backports/2.5.0/kernel/yield_self"
         require "backports/2.5.0/string/delete_prefix"
         require "backports/2.5.0/string/delete_suffix"
-        
+
         # Ruby 2.6+ backports
         require "backports/2.6.0/array/to_h"
         require "backports/2.6.0/hash/merge"
-        
+
         # Ruby 3.0+ backports
         require "backports/3.0.0/hash/except"
       end
@@ -45,4 +45,4 @@ module Packwerk
       end
     end
   end
-end 
+end

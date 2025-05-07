@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require 'constant_resolver'
+require "constant_resolver"
 
 # make sure PrivateThing.constantize succeeds to pass the privacy validity check
 require "fixtures/skeleton/components/timeline/app/models/private_thing.rb"

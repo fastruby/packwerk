@@ -6,7 +6,6 @@ require "singleton"
 module Packwerk
   module Parsers
     class Factory
-      
       include Singleton
 
       RUBY_REGEX = %r{
@@ -20,7 +19,6 @@ module Packwerk
       ERB_REGEX = /\.erb\Z/
       private_constant :ERB_REGEX
 
-
       def for_path(path)
         case path
         when RUBY_REGEX
@@ -29,12 +27,12 @@ module Packwerk
           # Always return an ERB parser even if better_html is not available
           # Our mock implementation will handle the case where better_html is missing
           @erb_parser ||= erb_parser_class.new
-          
+
           # Log diagnostic information when using mock parser
           if using_mock_erb_parser?
             debug_log("Using mock ERB parser for #{path} - better_html not available")
           end
-          
+
           @erb_parser
         end
       end

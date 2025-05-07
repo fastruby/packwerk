@@ -6,13 +6,9 @@ module Packwerk
     class OffensesFormatter
       include Packwerk::OffensesFormatter
 
-      
-
-
       def initialize(style: OutputStyles::Plain.new)
         @style = style
       end
-
 
       def show_offenses(offenses)
         return "No offenses detected" if offenses.empty?
@@ -22,7 +18,6 @@ module Packwerk
           #{offenses_summary(offenses)}
         EOS
       end
-
 
       def show_stale_violations(offense_collection)
         if offense_collection.stale_violations?
@@ -34,14 +29,12 @@ module Packwerk
 
       private
 
-
       def offenses_list(offenses)
         offenses
           .compact
           .map { |offense| offense.to_s(@style) }
           .join("\n")
       end
-
 
       def offenses_summary(offenses)
         offenses_string = "offense".pluralize(offenses.length)

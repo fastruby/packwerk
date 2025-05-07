@@ -27,12 +27,12 @@ module Packwerk
 
       def constant_name(constant_node)
         return "" if constant_node.nil?
-        
+
         # Check for dynamically namespaced constants like "self.class::HEADERS"
         if dynamically_namespaced_constant?(constant_node)
           raise TypeError
         end
-        
+
         case type_of(constant_node)
         when CONSTANT_ROOT_NAMESPACE
           ""
@@ -201,7 +201,7 @@ module Packwerk
         if class_eval_with_no_receiver?(ancestors)
           return name_for_class_eval_with_no_receiver(ancestors)
         end
-        
+
         definitions = ancestors
           .select { |n| [CLASS, MODULE, CONSTANT_ASSIGNMENT, BLOCK].include?(type_of(n)) }
 
@@ -275,7 +275,7 @@ module Packwerk
 
       def method_call_node(block_node)
         return nil if block_node.nil?
-        
+
         if type_of(block_node) == BLOCK
           # (block (send (const nil :Class) :new) (args) (nil))
           #   "Class.new do end"
@@ -289,7 +289,7 @@ module Packwerk
         # "Class.new"
         # "Module.new"
         return false if node.nil?
-        
+
         method_call?(node) &&
           node.children[0] && # ensure receiver exists
           ["Class", "Module"].include?(constant_name(node.children[0])) &&
@@ -307,7 +307,7 @@ module Packwerk
 
       def name_from_block_definition(node, ancestors: [])
         return nil if node.nil?
-        
+
         begin
           method_node = method_call_node(node)
           if method_node && method_name(method_node) == :class_eval
@@ -318,18 +318,14 @@ module Packwerk
             else
               # No receiver, check if this is inside a module
               enclosing_module = ancestors.find { |n| type_of(n) == MODULE }
-              
+
               if enclosing_module
                 # Extract the module name
                 module_name = class_or_module_name(enclosing_module)
                 # Return the module name without any trailing "::"
                 module_name&.sub(/::$/, "")
-              else
-                nil
               end
             end
-          else
-            nil
           end
         rescue TypeError
           nil
@@ -338,7 +334,7 @@ module Packwerk
 
       def receiver(method_call_or_block_node)
         return nil if method_call_or_block_node.nil?
-        
+
         case type_of(method_call_or_block_node)
         when METHOD_CALL
           # (send (lvar :foo) :bar (int 1))
@@ -348,44 +344,42 @@ module Packwerk
           # (block (send (const nil :Class) :new) (args) (nil))
           #   "Class.new do end"
           receiver(method_call_node(method_call_or_block_node))
-        else
-          nil
         end
       end
 
       def dynamically_namespaced_constant?(node)
         return false unless node && type_of(node) == CONSTANT
-        
+
         # Check for nodes like "self.class::HEADERS"
         # These have a namespace that isn't a simple constant
         receiver = node.children[0]
         return false unless receiver
-        
+
         type = type_of(receiver)
         return false if [CONSTANT, CONSTANT_ROOT_NAMESPACE, CONSTANT_ASSIGNMENT].include?(type)
-        
+
         # If we get here, it's a dynamic namespace
         true
       end
 
       def class_eval_with_no_receiver?(ancestors)
         return false if ancestors.size < 2
-        
+
         grandparent = ancestors.last
         parent = ancestors.first
-        
+
         return false unless type_of(grandparent) == MODULE
         return false unless type_of(parent) == BLOCK
-        
+
         method_node = method_call_node(parent)
         return false unless method_node
-        
+
         method_name(method_node) == :class_eval && receiver(parent).nil?
       end
-      
+
       def name_for_class_eval_with_no_receiver(ancestors)
         grandparent = ancestors.last
-        
+
         if type_of(grandparent) == MODULE
           class_or_module_name(grandparent)
         else

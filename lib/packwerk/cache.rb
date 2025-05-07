@@ -24,10 +24,10 @@ module Packwerk
               relative_path: ref.relative_path,
               source_location: {
                 line: ref.source_location.line,
-                column: ref.source_location.column
-              }
+                column: ref.source_location.column,
+              },
             }
-          end
+          end,
         })
       end
 

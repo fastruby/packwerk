@@ -7,9 +7,6 @@ module Packwerk
   # Extracts the load paths from the analyzed application so that we can map constant names to paths.
   module ApplicationLoadPaths
     class << self
-      
-
-
       def extract_relevant_paths(root, environment)
         require_application(root, environment)
         all_paths = extract_application_autoload_paths
@@ -18,16 +15,15 @@ module Packwerk
         relative_path_strings(relevant_paths)
       end
 
-
       def extract_application_autoload_paths
         railties = if Rails.application.railties.respond_to?(:to_a)
           Rails.application.railties.to_a
         else
           Rails.application.railties.all
         end
-        
+
         engine_railties = railties.find_all { |railtie| railtie.is_a?(Rails::Engine) }
-        
+
         (engine_railties + [Rails.application])
           .flat_map do |engine|
             paths = (engine.config.autoload_paths + engine.config.eager_load_paths + engine.config.autoload_once_paths)
@@ -45,7 +41,6 @@ module Packwerk
           .reject { |path| path.fnmatch(bundle_path_match.to_s) } # reject paths from vendored gems
       end
 
-
       def relative_path_strings(paths, rails_root: Rails.root)
         paths
           .map { |path| path.relative_path_from(Pathname.new(rails_root)).to_s }
@@ -53,7 +48,6 @@ module Packwerk
       end
 
       private
-
 
       def require_application(root, environment)
         environment_file = "#{root}/config/environment"
@@ -66,7 +60,6 @@ module Packwerk
           raise "A Rails application could not be found in #{root}"
         end
       end
-
 
       def assert_load_paths_present(paths)
         if paths.empty?

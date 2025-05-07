@@ -6,9 +6,6 @@ require "ast"
 module Packwerk
   # An interface describing an object that can extract a constant name from an AST node.
   module ConstantNameInspector
-    
-
-
     def constant_name_from_node(node, ancestors:); end
   end
 end

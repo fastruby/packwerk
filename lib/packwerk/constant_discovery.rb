@@ -17,8 +17,6 @@ module Packwerk
   #   have no way of inferring the file it is defined in. You could argue though that inheritance means that another
   #   constant with the same name exists in the inheriting class, and this view is sufficient for all our use cases.
   class ConstantDiscovery
-    
-
     ConstantContext = Struct.new(:name, :location, :package, :public?)
 
     # @param constant_resolver [ConstantResolver]
@@ -55,7 +53,7 @@ module Packwerk
           raise(ConstantResolver::Error, e.message)
         else # The todo file is configured
           file_path = ENV.fetch("PACKWERK_CONSTANT_DISCOVERY_TODO_FILE")
-          
+
           if File.exist?(file_path)
             # Check if the error is already in the todo
             current_content = File.read(file_path)
@@ -71,7 +69,7 @@ module Packwerk
             File.write(file_path, e.message)
           end
         end
-        
+
         return nil
       end
 

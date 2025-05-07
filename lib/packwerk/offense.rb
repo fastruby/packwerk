@@ -5,14 +5,9 @@ require "parser/source/map"
 
 module Packwerk
   class Offense
-    
-
-
     attr_reader :location
 
-
     attr_reader :file
-
 
     attr_reader :message
 
@@ -21,7 +16,6 @@ module Packwerk
       @file = file
       @message = message
     end
-
 
     def to_s(style = OutputStyles::Plain.new)
       location = self.location

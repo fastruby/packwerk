@@ -8,7 +8,7 @@ module Packwerk
       def match?(pattern, pos = 0)
         # match? was added in Ruby 2.4 as a more efficient version of match
         # that doesn't create a MatchData object
-        !!(self.match(pattern, pos))
+        !!match(pattern, pos)
       end
     end
   end
@@ -17,4 +17,4 @@ end
 # Only patch if the match? method doesn't already exist
 unless String.method_defined?(:match?)
   String.include(Packwerk::CoreExt::StringExtensions)
-end 
+end
