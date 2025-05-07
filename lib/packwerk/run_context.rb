@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require "backports/2.5.0/string/delete_prefix"
 require "constant_resolver"
-require "backports/2.4.0/hash/transform_values"
 
 module Packwerk
   # Holds the context of a Packwerk run across multiple files.

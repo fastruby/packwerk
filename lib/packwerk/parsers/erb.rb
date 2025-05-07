@@ -4,7 +4,6 @@
 require "parser"
 require "stringio"
 require "ostruct"
-require "backports/2.4.0/regexp/match"
 require "json"
 require "digest"
 require "parser/source/buffer"

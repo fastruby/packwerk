@@ -17,10 +17,14 @@ module Packwerk
       def require_ruby_backports
         # Ruby 2.4+ backports
         require "backports/2.4.0/hash/transform_values"
-        require "backports/2.5.0/hash/transform_keys"
+        require "backports/2.4.0/regexp/match"
+        require "backports/2.4.0/string/match"
 
         # Ruby 2.5+ backports
+        require "backports/2.5.0/array/prepend"
+        require "backports/2.5.0/hash/transform_keys"
         require "backports/2.5.0/kernel/yield_self"
+        require "backports/2.5.0/module/alias_method"
         require "backports/2.5.0/string/delete_prefix"
         require "backports/2.5.0/string/delete_suffix"
 
