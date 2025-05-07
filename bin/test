@@ -3,8 +3,64 @@ rm -rf tmp/output.log
 mkdir -p tmp
 
 # don't run tests in test/support and fixtures
+test_file_count=0
 for file in test/**/*_test.rb; do
   echo "executing bundle exec rake test TEST=$file"
   # append to output.log and warnings.log
   bundle exec rake test TEST="$file" 1>>tmp/output.log 2>>tmp/warnings.log
+
+  test_file_count=$((test_file_count + 1))
 done
+
+echo "Processed $test_file_count test files."
+
+# count x runs, x assertions, x failures, x errors, x skips
+# for all runs
+# in tmp/output.log
+
+echo "Global Test Results:"
+echo "--------------------------------------------------"
+
+# AWK script to parse log, print summary, and set exit code
+summary_output_and_status=$(awk '''
+BEGIN {
+    total_runs = 0;
+    total_assertions = 0;
+    total_failures = 0;
+    total_errors = 0;
+    total_skips = 0;
+    FS = "[,[:space:]]+"; # Field separator: one or more commas or spaces
+}
+# Match lines like: "25 runs, 105 assertions, 0 failures, 0 errors, 0 skips"
+/^[0-9]+ runs, [0-9]+ assertions, [0-9]+ failures, [0-9]+ errors, [0-9]+ skips$/ {
+    # With FS="[,[:space:]]+"
+    # $1: runs_count, $2: "runs", $3: assertions_count, $4: "assertions", ...
+    total_runs += $1;
+    total_assertions += $3;
+    total_failures += $5;
+    total_errors += $7;
+    total_skips += $9;
+}
+END {
+    print "Total Runs: " total_runs;
+    print "Total Assertions: " total_assertions;
+    print "Total Failures: " total_failures;
+    print "Total Errors: " total_errors;
+    print "Total Skips: " total_skips;
+    # Exit with 1 if there were failures or errors, 0 otherwise
+    if (total_failures > 0 || total_errors > 0) {
+        exit 1;
+    } else {
+        exit 0;
+    }
+}''' tmp/output.log
+)
+awk_exit_status=$?
+
+# Print the summary captured from awk stdout
+echo "$summary_output_and_status"
+echo "--------------------------------------------------"
+
+# Exit with the status code from awk
+exit "$awk_exit_status"
+
