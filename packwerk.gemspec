@@ -5,8 +5,8 @@ require_relative "lib/packwerk/version"
 Gem::Specification.new do |spec|
   spec.name          = "packwerk"
   spec.version       = Packwerk::VERSION
-  spec.authors       = ["Shopify Inc."]
-  spec.email         = ["gems@shopify.com"]
+  spec.authors       = ["Shopify Inc.", "FastRuby.io"]
+  spec.email         = ["gems@shopify.com", "sean@ombulabs.com", "adam@ombulabs.com"]
 
   spec.summary       = "Packages for applications based on the zeitwerk autoloader"
 
@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
 
   if spec.respond_to?(:metadata)
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "https://github.com/Shopify/packwerk"
-    spec.metadata["changelog_uri"] = "https://github.com/Shopify/packwerk/releases"
+    spec.metadata["source_code_uri"] = "https://github.com/FastRuby/packwerk"
+    spec.metadata["changelog_uri"] = "https://github.com/FastRuby/packwerk/releases"
   end
 
   if spec.respond_to?(:metadata)
@@ -58,7 +58,4 @@ Gem::Specification.new do |spec|
   # For Ruby parsing
   spec.add_dependency("ast")
   spec.add_dependency("parser")
-
-  # For ERB parsing - commented out for Rails 3.2 compatibility
-  # spec.add_dependency("better_html")
 end
