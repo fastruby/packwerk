@@ -30,9 +30,6 @@ module Packwerk
         
         # Ruby 3.0+ backports
         require "backports/3.0.0/hash/except"
-        
-        # Don't require ruby-next as it causes issues with Ruby 2.3.8 in Docker
-        # require "ruby-next"
       end
 
       def require_active_support_backports
