@@ -48,7 +48,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency("parallel")
   # Make bundler a development dependency instead to avoid conflicts with Rails 3.2
   spec.add_development_dependency("bundler")
-  spec.add_dependency("digest")
 
   spec.add_development_dependency("rake")
   spec.add_development_dependency("m")
